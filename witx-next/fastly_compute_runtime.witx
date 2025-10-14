@@ -1,0 +1,7 @@
+(module $fastly_compute_runtime
+    (use * from $typenames)
+
+    (@interface func (export "get_vcpu_ms")
+        (result $err (expected $vcpu_ms (error $fastly_status)))
+    )
+)

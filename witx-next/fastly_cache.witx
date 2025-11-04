@@ -1,13 +1,15 @@
 (module $fastly_cache
     (use * from $typenames)
     (resource $cache_handle_res)
+    (resource $cache_busy_handle_res)
+    (resource $cache_replace_handle_res)
 
     ;;; The outcome of a cache lookup (either bare or as part of a cache transaction)
     (typename $cache_handle (handle $cache_handle_res))
     ;;; Handle that can be used to check whether or not a cache lookup is waiting on another client.
-    (typename $cache_busy_handle (handle))
+    (typename $cache_busy_handle (handle $cache_busy_handle_res))
     ;;; Handle for an in-progress Replace operation
-    (typename $cache_replace_handle (handle))
+    (typename $cache_replace_handle (handle $cache_replace_handle_res))
 
     (typename $cache_object_length u64)
     (typename $cache_duration_ns u64)

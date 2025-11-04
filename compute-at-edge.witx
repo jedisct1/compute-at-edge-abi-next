@@ -257,18 +257,18 @@
 
     ;; DEPRECATED: use fastly_http_downstream::downstream_tls_ja4
     (@interface func (export "downstream_tls_ja4")
-         (param $ja4_out (@witx pointer (@witx char8)))
-         (param $ja4_max_len (@witx usize))
-         (param $nwritten_out (@witx pointer (@witx usize)))
-         (result $err (expected (error $fastly_status)))
+        (param $ja4_out (@witx pointer (@witx char8)))
+        (param $ja4_max_len (@witx usize))
+        (param $nwritten_out (@witx pointer (@witx usize)))
+        (result $err (expected (error $fastly_status)))
     )
 
     ;; DEPRECATED: use fastly_http_downstream::downstream_compliance_region
     (@interface func (export "downstream_compliance_region")
-         (param $region_out (@witx pointer (@witx char8)))
-         (param $region_max_len (@witx usize))
-         (param $nwritten_out (@witx pointer (@witx usize)))
-         (result $err (expected (error $fastly_status)))
+        (param $region_out (@witx pointer (@witx char8)))
+        (param $region_max_len (@witx usize))
+        (param $nwritten_out (@witx pointer (@witx usize)))
+        (result $err (expected (error $fastly_status)))
     )
 
     (@interface func (export "new")

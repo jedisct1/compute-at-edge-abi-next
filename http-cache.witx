@@ -31,11 +31,11 @@
 (typename $http_storage_action
     (enum (@witx tag u32)
         ;; Insert the response into cache (for `transaction-insert` and
-        ;; `transaction-insert-and-stream-back`).
+            ;; `transaction-insert-and-stream-back`).
         $insert
 
         ;; Update the stale response in cache (for `transaction-update` and
-        ;; `transaction-update-and-return-fresh`).
+            ;; `transaction-update-and-return-fresh`).
         $update
 
         ;; Do not store this response.
@@ -282,7 +282,7 @@
     ;;; Close an ongoing interaction with the cache.
     ;;;
     ;;; If the cache handle state includes `$must_insert_or_update` (and hence no insert or update
-    ;;; has been performed), closing the handle cancels any request collapsing, potentially choosing
+        ;;; has been performed), closing the handle cancels any request collapsing, potentially choosing
     ;;; a new waiter to perform the insertion/update.
     (@interface func (export "close")
         (param $handle $http_cache_handle)

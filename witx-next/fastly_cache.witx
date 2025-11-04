@@ -11,9 +11,6 @@
     ;;; Handle for an in-progress Replace operation
     (typename $cache_replace_handle (handle $cache_replace_handle_res))
 
-    (typename $cache_object_length u64)
-    (typename $cache_duration_ns u64)
-    (typename $cache_hit_count u64)
     (typename $cache_replace_strategy u32)
 
     ;;; Extensible options for cache lookup operations; currently used for both `lookup` and `transaction_lookup`.
@@ -112,16 +109,6 @@
             $reserved
             $from
             $to
-        )
-    )
-
-    ;;; The status of this lookup (and potential transaction)
-    (typename $cache_lookup_state
-        (flags (@witx repr u32)
-            $found ;; a cached object was found
-            $usable ;; the cached object is valid to use (implies $found)
-            $stale ;; the cached object is stale (but may or may not be valid to use)
-            $must_insert_or_update ;; this client is requested to insert or revalidate an object
         )
     )
 

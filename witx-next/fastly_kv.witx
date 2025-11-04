@@ -1,10 +1,6 @@
 (module $fastly_kv
     (use * from $typenames)
 
-    (resource $kv_store_res)
-
-    (typename $kv_store_handle (handle $kv_store_res))
-
     (@interface func (export "open")
         (param $name string)
         (result $err (expected $kv_store_handle (error $fastly_status)))

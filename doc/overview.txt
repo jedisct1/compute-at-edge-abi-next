@@ -1,7 +1,7 @@
 * API overview *
 
 
----------------------- Module: [typenames] ----------------------
+---------------------- Module: [fastly_abi] ----------------------
 
 enum fastly_status: (tag: u32)
     - ok: 0
@@ -47,15 +47,31 @@ alias dictionary_handle = handle
 
 alias object_store_handle = handle
 
-alias pending_object_store_lookup_handle = handle
+alias pending_kv_lookup_handle = handle
 
-alias pending_object_store_insert_handle = handle
+alias pending_kv_insert_handle = handle
 
-alias pending_object_store_delete_handle = handle
+alias pending_kv_delete_handle = handle
+
+alias pending_kv_list_handle = handle
+
+alias kv_store_handle = handle
+
+alias kv_store_lookup_handle = handle
+
+alias kv_store_insert_handle = handle
+
+alias kv_store_delete_handle = handle
+
+alias kv_store_list_handle = handle
 
 alias secret_store_handle = handle
 
 alias secret_handle = handle
+
+alias acl_handle = handle
+
+alias request_promise_handle = handle
 
 alias async_item_handle = handle
 
@@ -84,13 +100,21 @@ alias inserted = u32
 
 alias ready_idx = u32
 
+alias ddos_detected = u32
+
 alias port = u16
 
 alias timeout_ms = u32
 
+alias timeout_secs = u32
+
+alias probe_count = u32
+
 alias backend_exists = u32
 
 alias is_dynamic = u32
+
+alias is_keepalive = u32
 
 alias is_ssl = u32
 
@@ -117,6 +141,72 @@ enum tls_version: (tag: u32)
     - tls_1_2: 2
     - tls_1_3: 3
 
+constants kv_lookup_config_options: (type: u32)
+predefined constants for kv_lookup_config_options:
+    - reserved = 1
+
+struct kv_lookup_config:
+    - reserved: u32
+
+constants kv_delete_config_options: (type: u32)
+predefined constants for kv_delete_config_options:
+    - reserved = 1
+
+struct kv_delete_config:
+    - reserved: u32
+
+constants kv_insert_config_options: (type: u32)
+predefined constants for kv_insert_config_options:
+    - reserved = 0x1
+    - background_fetch = 0x2
+    - reserved_2 = 0x4
+    - metadata = 0x8
+    - time_to_live_sec = 0x10
+    - if_generation_match = 0x20
+
+enum kv_insert_mode: (tag: u32)
+    - overwrite: 0
+    - add: 1
+    - append: 2
+    - prepend: 3
+
+struct kv_insert_config:
+    - mode: kv_insert_mode
+    - unused: u32
+    - metadata: mut_ptr<char8>
+    - metadata_len: u32
+    - time_to_live_sec: u32
+    - if_generation_match: u64
+
+constants kv_list_config_options: (type: u32)
+predefined constants for kv_list_config_options:
+    - reserved = 0x1
+    - cursor = 0x2
+    - limit = 0x4
+    - prefix = 0x8
+
+enum kv_list_mode: (tag: u32)
+    - strong: 0
+    - eventual: 1
+
+struct kv_list_config:
+    - mode: kv_list_mode
+    - cursor: mut_ptr<char8>
+    - cursor_len: u32
+    - limit: u32
+    - prefix: mut_ptr<char8>
+    - prefix_len: u32
+
+enum kv_error: (tag: u32)
+    - uninitialized: 0
+    - ok: 1
+    - bad_request: 2
+    - not_found: 3
+    - precondition_failed: 4
+    - payload_too_large: 5
+    - internal_error: 6
+    - too_many_requests: 7
+
 constants backend_config_options: (type: u32)
 predefined constants for backend_config_options:
     - reserved = 0x1
@@ -134,6 +224,9 @@ predefined constants for backend_config_options:
     - dont_pool = 0x1000
     - client_cert = 0x2000
     - grpc = 0x4000
+    - keepalive = 0x8000
+    - pooling_limits = 0x10000
+    - prefer_ipv4 = 0x20000
 
 struct dynamic_backend_config:
     - host_override: mut_ptr<char8>
@@ -154,6 +247,14 @@ struct dynamic_backend_config:
     - client_certificate: mut_ptr<char8>
     - client_certificate_len: u32
     - client_key: secret_handle
+    - http_keepalive_time_ms: timeout_ms
+    - tcp_keepalive_enable: u32
+    - tcp_keepalive_interval_secs: timeout_secs
+    - tcp_keepalive_probes: probe_count
+    - tcp_keepalive_time_secs: timeout_secs
+    - max_connections: u32
+    - max_use: u32
+    - max_lifetime_ms: timeout_ms
 
 enum client_cert_verify_result: (tag: u32)
     - ok: 0
@@ -225,12 +326,80 @@ alias has = u32
 
 alias body_length = u64
 
+alias vcpu_ms = u64
 
----------------------- Module: [fastly_abi] ----------------------
+alias memory_mib = u32
+
+constants inspect_info_mask: (type: u32)
+predefined constants for inspect_info_mask:
+    - reserved = 0x1
+    - corp = 0x2
+    - workspace = 0x4
+    - override_client_ip = 0x8
+
+struct inspect_info:
+    - corp: mut_ptr<char8>
+    - corp_len: u32
+    - workspace: mut_ptr<char8>
+    - workspace_len: u32
+    - override_client_ip_ptr: mut_ptr<u8>
+    - override_client_ip_len: u32
+
+enum acl_error: (tag: u32)
+    - uninitialized: 0
+    - ok: 1
+    - no_content: 2
+    - too_many_requests: 3
+
+constants image_optimizer_transform_config_options: (type: u32)
+predefined constants for image_optimizer_transform_config_options:
+    - reserved = 1
+    - sdk_claims_opts = 2
+
+struct image_optimizer_transform_config:
+    - sdk_claims_opts: mut_ptr<char8>
+    - sdk_claims_opts_len: u32
+
+enum image_optimizer_error_tag: (tag: u32)
+    - uninitialized: 0
+    - ok: 1
+    - error: 2
+    - warning: 3
+
+struct image_optimizer_error_detail:
+    - tag: image_optimizer_error_tag
+    - message: mut_ptr<char8>
+    - message_len: u32
+
+constants next_request_options_mask: (type: u32)
+predefined constants for next_request_options_mask:
+    - reserved = 1
+    - timeout = 2
+
+struct next_request_options:
+    - timeout_ms: u64
 
 function init(): fastly_status
     - Input:
         - abi_version: u64
+    - No output
+
+
+---------------------- Module: [fastly_acl] ----------------------
+
+function open(): fastly_status
+    - Input:
+        - name: string
+    - Output:
+        - mut_ptr<acl_handle>
+
+function lookup(): fastly_status
+    - Input:
+        - acl: acl_handle
+        - ip_octets: ptr<char8>
+        - ip_len: usize
+        - body_handle_out: mut_ptr<body_handle>
+        - acl_error_out: mut_ptr<acl_error>
     - No output
 
 
@@ -310,6 +479,36 @@ function get_between_bytes_timeout_ms(): fastly_status
     - Output:
         - mut_ptr<timeout_ms>
 
+function get_http_keepalive_time(): fastly_status
+    - Input:
+        - backend: string
+    - Output:
+        - mut_ptr<timeout_ms>
+
+function get_tcp_keepalive_enable(): fastly_status
+    - Input:
+        - backend: string
+    - Output:
+        - mut_ptr<is_keepalive>
+
+function get_tcp_keepalive_interval(): fastly_status
+    - Input:
+        - backend: string
+    - Output:
+        - mut_ptr<timeout_secs>
+
+function get_tcp_keepalive_probes(): fastly_status
+    - Input:
+        - backend: string
+    - Output:
+        - mut_ptr<probe_count>
+
+function get_tcp_keepalive_time(): fastly_status
+    - Input:
+        - backend: string
+    - Output:
+        - mut_ptr<timeout_secs>
+
 function is_ssl(): fastly_status
     - Input:
         - backend: string
@@ -333,19 +532,43 @@ function get_ssl_max_version(): fastly_status
 
 alias cache_handle = handle
 
+alias cache_busy_handle = handle
+
+alias cache_replace_handle = handle
+
 alias cache_object_length = u64
 
 alias cache_duration_ns = u64
 
 alias cache_hit_count = u64
 
+alias cache_replace_strategy = u32
+
 struct cache_lookup_options:
     - request_headers: request_handle
+    - service_id: mut_ptr<char8>
+    - service_id_len: u32
 
 constants cache_lookup_options_mask: (type: u32)
 predefined constants for cache_lookup_options_mask:
-    - reserved = 1
-    - request_headers = 2
+    - reserved = 0x1
+    - request_headers = 0x2
+    - service_id = 0x4
+    - always_use_requested_range = 0x8
+
+struct cache_replace_options:
+    - request_headers: request_handle
+    - replace_strategy: cache_replace_strategy
+    - service_id: mut_ptr<char8>
+    - service_id_len: u32
+
+constants cache_replace_options_mask: (type: u32)
+predefined constants for cache_replace_options_mask:
+    - reserved = 0x1
+    - request_headers = 0x2
+    - replace_strategy = 0x4
+    - service_id = 0x8
+    - always_use_requested_range = 0x10
 
 struct cache_write_options:
     - max_age_ns: cache_duration_ns
@@ -359,6 +582,9 @@ struct cache_write_options:
     - length: cache_object_length
     - user_metadata_ptr: mut_ptr<u8>
     - user_metadata_len: usize
+    - edge_max_age_ns: cache_duration_ns
+    - service_id: mut_ptr<char8>
+    - service_id_len: u32
 
 constants cache_write_options_mask: (type: u32)
 predefined constants for cache_write_options_mask:
@@ -371,6 +597,8 @@ predefined constants for cache_write_options_mask:
     - length = 0x40
     - user_metadata = 0x80
     - sensitive_data = 0x100
+    - edge_max_age_ns = 0x200
+    - service_id = 0x400
 
 struct cache_get_body_options:
     - from: u64
@@ -405,11 +633,93 @@ function insert(): fastly_status
     - Output:
         - mut_ptr<body_handle>
 
+function replace(): fastly_status
+    - Input:
+        - cache_key: mut_slice<u8>
+        - options_mask: cache_replace_options_mask
+        - options: mut_ptr<cache_replace_options>
+    - Output:
+        - mut_ptr<cache_replace_handle>
+
+function replace_insert(): fastly_status
+    - Input:
+        - handle: cache_replace_handle
+        - options_mask: cache_write_options_mask
+        - options: mut_ptr<cache_write_options>
+    - Output:
+        - mut_ptr<body_handle>
+
+function replace_get_age_ns(): fastly_status
+    - Input:
+        - handle: cache_replace_handle
+    - Output:
+        - mut_ptr<cache_duration_ns>
+
+function replace_get_body(): fastly_status
+    - Input:
+        - handle: cache_replace_handle
+        - options_mask: cache_get_body_options_mask
+        - options: cache_get_body_options
+    - Output:
+        - mut_ptr<body_handle>
+
+function replace_get_hits(): fastly_status
+    - Input:
+        - handle: cache_replace_handle
+    - Output:
+        - mut_ptr<cache_hit_count>
+
+function replace_get_length(): fastly_status
+    - Input:
+        - handle: cache_replace_handle
+    - Output:
+        - mut_ptr<cache_object_length>
+
+function replace_get_max_age_ns(): fastly_status
+    - Input:
+        - handle: cache_replace_handle
+    - Output:
+        - mut_ptr<cache_duration_ns>
+
+function replace_get_stale_while_revalidate_ns(): fastly_status
+    - Input:
+        - handle: cache_replace_handle
+    - Output:
+        - mut_ptr<cache_duration_ns>
+
+function replace_get_state(): fastly_status
+    - Input:
+        - handle: cache_replace_handle
+    - Output:
+        - mut_ptr<cache_lookup_state>
+
+function replace_get_user_metadata(): fastly_status
+    - Input:
+        - handle: cache_replace_handle
+        - user_metadata_out_ptr: mut_ptr<u8>
+        - user_metadata_out_len: usize
+        - nwritten_out: mut_ptr<usize>
+    - No output
+
 function transaction_lookup(): fastly_status
     - Input:
         - cache_key: mut_slice<u8>
         - options_mask: cache_lookup_options_mask
         - options: mut_ptr<cache_lookup_options>
+    - Output:
+        - mut_ptr<cache_handle>
+
+function transaction_lookup_async(): fastly_status
+    - Input:
+        - cache_key: mut_slice<u8>
+        - options_mask: cache_lookup_options_mask
+        - options: mut_ptr<cache_lookup_options>
+    - Output:
+        - mut_ptr<cache_busy_handle>
+
+function cache_busy_handle_wait(): fastly_status
+    - Input:
+        - busy_handle: cache_busy_handle
     - Output:
         - mut_ptr<cache_handle>
 
@@ -440,6 +750,11 @@ function transaction_update(): fastly_status
 function transaction_cancel(): fastly_status
     - Input:
         - handle: cache_handle
+    - No output
+
+function close_busy(): fastly_status
+    - Input:
+        - handle: cache_busy_handle
     - No output
 
 function close(): fastly_status
@@ -500,6 +815,17 @@ function get_hits(): fastly_status
         - mut_ptr<cache_hit_count>
 
 
+---------------------- Module: [fastly_compute_runtime] ----------------------
+
+function get_vcpu_ms(): fastly_status
+    - Output:
+        - mut_ptr<vcpu_ms>
+
+function get_heap_mib(): fastly_status
+    - Output:
+        - mut_ptr<memory_mib>
+
+
 ---------------------- Module: [fastly_config_store] ----------------------
 
 alias config_store_handle = handle
@@ -516,8 +842,8 @@ function get(): fastly_status
         - key: string
         - value: mut_ptr<char8>
         - value_max_len: usize
-    - Output:
-        - mut_ptr<num_bytes>
+        - nwritten_out: mut_ptr<usize>
+    - No output
 
 
 ---------------------- Module: [fastly_device_detection] ----------------------
@@ -545,8 +871,8 @@ function get(): fastly_status
         - key: string
         - value: mut_ptr<char8>
         - value_max_len: usize
-    - Output:
-        - mut_ptr<num_bytes>
+        - nwritten_out: mut_ptr<usize>
+    - No output
 
 
 ---------------------- Module: [fastly_dns] ----------------------
@@ -743,6 +1069,383 @@ function known_length(): fastly_status
         - mut_ptr<body_length>
 
 
+---------------------- Module: [fastly_http_cache] ----------------------
+
+alias http_cache_handle = handle
+
+alias is_cacheable = u32
+
+alias is_sensitive = u32
+
+enum http_storage_action: (tag: u32)
+    - insert: 0
+    - update: 1
+    - do_not_store: 2
+    - record_uncacheable: 3
+
+struct http_cache_lookup_options:
+    - override_key_ptr: mut_ptr<char8>
+    - override_key_len: usize
+    - backend_name_ptr: mut_ptr<char8>
+    - backend_name_len: usize
+
+constants http_cache_lookup_options_mask: (type: u32)
+predefined constants for http_cache_lookup_options_mask:
+    - reserved = 0x1
+    - override_key = 0x2
+    - backend_name = 0x4
+
+struct http_cache_write_options:
+    - max_age_ns: cache_duration_ns
+    - vary_rule_ptr: mut_ptr<char8>
+    - vary_rule_len: usize
+    - initial_age_ns: cache_duration_ns
+    - stale_while_revalidate_ns: cache_duration_ns
+    - surrogate_keys_ptr: mut_ptr<char8>
+    - surrogate_keys_len: usize
+    - length: cache_object_length
+
+constants http_cache_write_options_mask: (type: u32)
+predefined constants for http_cache_write_options_mask:
+    - reserved = 0x1
+    - vary_rule = 0x2
+    - initial_age_ns = 0x4
+    - stale_while_revalidate_ns = 0x8
+    - surrogate_keys = 0x10
+    - length = 0x20
+    - sensitive_data = 0x40
+
+function is_request_cacheable(): fastly_status
+    - Input:
+        - req_handle: request_handle
+    - Output:
+        - mut_ptr<is_cacheable>
+
+function get_suggested_cache_key(): fastly_status
+    - Input:
+        - req_handle: request_handle
+        - key_out_ptr: mut_ptr<char8>
+        - key_out_len: usize
+        - nwritten_out: mut_ptr<usize>
+    - No output
+
+function lookup(): fastly_status
+    - Input:
+        - req_handle: request_handle
+        - options_mask: http_cache_lookup_options_mask
+        - options: mut_ptr<http_cache_lookup_options>
+    - Output:
+        - mut_ptr<http_cache_handle>
+
+function transaction_lookup(): fastly_status
+    - Input:
+        - req_handle: request_handle
+        - options_mask: http_cache_lookup_options_mask
+        - options: mut_ptr<http_cache_lookup_options>
+    - Output:
+        - mut_ptr<http_cache_handle>
+
+function transaction_insert(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+        - resp_handle: response_handle
+        - options_mask: http_cache_write_options_mask
+        - options: mut_ptr<http_cache_write_options>
+    - Output:
+        - mut_ptr<body_handle>
+
+function transaction_insert_and_stream_back(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+        - resp_handle: response_handle
+        - options_mask: http_cache_write_options_mask
+        - options: mut_ptr<http_cache_write_options>
+    - Output:
+        - mut_ptr<body_handle>
+        - mut_ptr<http_cache_handle>
+
+function transaction_update(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+        - resp_handle: response_handle
+        - options_mask: http_cache_write_options_mask
+        - options: mut_ptr<http_cache_write_options>
+    - No output
+
+function transaction_update_and_return_fresh(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+        - resp_handle: response_handle
+        - options_mask: http_cache_write_options_mask
+        - options: mut_ptr<http_cache_write_options>
+    - Output:
+        - mut_ptr<http_cache_handle>
+
+function transaction_record_not_cacheable(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+        - options_mask: http_cache_write_options_mask
+        - options: mut_ptr<http_cache_write_options>
+    - No output
+
+function transaction_abandon(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+    - No output
+
+function close(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+    - No output
+
+function get_suggested_backend_request(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+    - Output:
+        - mut_ptr<request_handle>
+
+function get_suggested_cache_options(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+        - response: response_handle
+        - options_mask: http_cache_write_options_mask
+        - options: mut_ptr<http_cache_write_options>
+        - options_mask_out: mut_ptr<http_cache_write_options_mask>
+        - options_out: mut_ptr<http_cache_write_options>
+    - No output
+
+function prepare_response_for_storage(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+        - response: response_handle
+    - Output:
+        - mut_ptr<http_storage_action>
+        - mut_ptr<response_handle>
+
+function get_found_response(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+        - transform_for_client: u32
+    - Output:
+        - mut_ptr<response_handle>
+        - mut_ptr<body_handle>
+
+function get_state(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+    - Output:
+        - mut_ptr<cache_lookup_state>
+
+function get_length(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+    - Output:
+        - mut_ptr<cache_object_length>
+
+function get_max_age_ns(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+    - Output:
+        - mut_ptr<cache_duration_ns>
+
+function get_stale_while_revalidate_ns(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+    - Output:
+        - mut_ptr<cache_duration_ns>
+
+function get_age_ns(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+    - Output:
+        - mut_ptr<cache_duration_ns>
+
+function get_hits(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+    - Output:
+        - mut_ptr<cache_hit_count>
+
+function get_sensitive_data(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+    - Output:
+        - mut_ptr<is_sensitive>
+
+function get_surrogate_keys(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+        - surrogate_keys_out_ptr: mut_ptr<u8>
+        - surrogate_keys_out_len: usize
+        - nwritten_out: mut_ptr<usize>
+    - No output
+
+function get_vary_rule(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+        - vary_rule_out_ptr: mut_ptr<u8>
+        - vary_rule_out_len: usize
+        - nwritten_out: mut_ptr<usize>
+    - No output
+
+
+---------------------- Module: [fastly_http_downstream] ----------------------
+
+function next_request(): fastly_status
+    - Input:
+        - options_mask: next_request_options_mask
+        - options: mut_ptr<next_request_options>
+    - Output:
+        - mut_ptr<request_promise_handle>
+
+function next_request_wait(): fastly_status
+    - Input:
+        - handle: request_promise_handle
+    - Output:
+        - mut_ptr<request_handle>
+        - mut_ptr<body_handle>
+
+function next_request_abandon(): fastly_status
+    - Input:
+        - handle: request_promise_handle
+    - No output
+
+function downstream_original_header_names(): fastly_status
+    - Input:
+        - req: request_handle
+        - buf: mut_ptr<char8>
+        - buf_len: usize
+        - cursor: multi_value_cursor
+        - ending_cursor_out: mut_ptr<multi_value_cursor_result>
+        - nwritten_out: mut_ptr<usize>
+    - No output
+
+function downstream_original_header_count(): fastly_status
+    - Input:
+        - req: request_handle
+    - Output:
+        - mut_ptr<header_count>
+
+function downstream_client_ip_addr(): fastly_status
+    - Input:
+        - req: request_handle
+        - addr_octets_out: mut_ptr<char8>
+    - Output:
+        - mut_ptr<num_bytes>
+
+function downstream_server_ip_addr(): fastly_status
+    - Input:
+        - req: request_handle
+        - addr_octets_out: mut_ptr<char8>
+    - Output:
+        - mut_ptr<num_bytes>
+
+function downstream_client_h2_fingerprint(): fastly_status
+    - Input:
+        - req: request_handle
+        - h2fp_out: mut_ptr<char8>
+        - h2fp_max_len: usize
+        - nwritten_out: mut_ptr<usize>
+    - No output
+
+function downstream_client_request_id(): fastly_status
+    - Input:
+        - req: request_handle
+        - reqid_out: mut_ptr<char8>
+        - reqid_max_len: usize
+        - nwritten_out: mut_ptr<usize>
+    - No output
+
+function downstream_client_oh_fingerprint(): fastly_status
+    - Input:
+        - req: request_handle
+        - ohfp_out: mut_ptr<char8>
+        - ohfp_max_len: usize
+        - nwritten_out: mut_ptr<usize>
+    - No output
+
+function downstream_client_ddos_detected(): fastly_status
+    - Input:
+        - req: request_handle
+    - Output:
+        - mut_ptr<ddos_detected>
+
+function downstream_tls_cipher_openssl_name(): fastly_status
+    - Input:
+        - req: request_handle
+        - cipher_out: mut_ptr<char8>
+        - cipher_max_len: usize
+        - nwritten_out: mut_ptr<usize>
+    - No output
+
+function downstream_tls_protocol(): fastly_status
+    - Input:
+        - req: request_handle
+        - protocol_out: mut_ptr<char8>
+        - protocol_max_len: usize
+        - nwritten_out: mut_ptr<usize>
+    - No output
+
+function downstream_tls_client_hello(): fastly_status
+    - Input:
+        - req: request_handle
+        - chello_out: mut_ptr<char8>
+        - chello_max_len: usize
+        - nwritten_out: mut_ptr<usize>
+    - No output
+
+function downstream_tls_raw_client_certificate(): fastly_status
+    - Input:
+        - req: request_handle
+        - raw_client_cert_out: mut_ptr<char8>
+        - raw_client_cert_max_len: usize
+        - nwritten_out: mut_ptr<usize>
+    - No output
+
+function downstream_tls_client_cert_verify_result(): fastly_status
+    - Input:
+        - req: request_handle
+    - Output:
+        - mut_ptr<client_cert_verify_result>
+
+function downstream_tls_client_servername(): fastly_status
+    - Input:
+        - req: request_handle
+        - tls_sni_out: mut_ptr<char8>
+        - tls_sni_max_len: usize
+        - nwritten_out: mut_ptr<usize>
+    - No output
+
+function downstream_tls_ja3_md5(): fastly_status
+    - Input:
+        - req: request_handle
+        - cja3_md5_out: mut_ptr<char8>
+    - Output:
+        - mut_ptr<num_bytes>
+
+function downstream_tls_ja4(): fastly_status
+    - Input:
+        - req: request_handle
+        - ja4_out: mut_ptr<char8>
+        - ja4_max_len: usize
+        - nwritten_out: mut_ptr<usize>
+    - No output
+
+function downstream_compliance_region(): fastly_status
+    - Input:
+        - req: request_handle
+        - region_out: mut_ptr<char8>
+        - region_max_len: usize
+        - nwritten_out: mut_ptr<usize>
+    - No output
+
+function fastly_key_is_valid(): fastly_status
+    - Input:
+        - req: request_handle
+    - Output:
+        - mut_ptr<is_valid>
+
+
 ---------------------- Module: [fastly_http_req] ----------------------
 
 function body_downstream_get(): fastly_status
@@ -773,6 +1476,12 @@ function downstream_client_ip_addr(): fastly_status
     - Output:
         - mut_ptr<num_bytes>
 
+function downstream_server_ip_addr(): fastly_status
+    - Input:
+        - addr_octets_out: mut_ptr<char8>
+    - Output:
+        - mut_ptr<num_bytes>
+
 function downstream_client_h2_fingerprint(): fastly_status
     - Input:
         - h2fp_out: mut_ptr<char8>
@@ -793,6 +1502,10 @@ function downstream_client_oh_fingerprint(): fastly_status
         - ohfp_max_len: usize
         - nwritten_out: mut_ptr<usize>
     - No output
+
+function downstream_client_ddos_detected(): fastly_status
+    - Output:
+        - mut_ptr<ddos_detected>
 
 function downstream_tls_cipher_openssl_name(): fastly_status
     - Input:
@@ -836,6 +1549,13 @@ function downstream_tls_ja4(): fastly_status
     - Input:
         - ja4_out: mut_ptr<char8>
         - ja4_max_len: usize
+        - nwritten_out: mut_ptr<usize>
+    - No output
+
+function downstream_compliance_region(): fastly_status
+    - Input:
+        - region_out: mut_ptr<char8>
+        - region_max_len: usize
         - nwritten_out: mut_ptr<usize>
     - No output
 
@@ -972,11 +1692,30 @@ function send_v2(): fastly_status
         - mut_ptr<response_handle>
         - mut_ptr<body_handle>
 
+function send_v3(): fastly_status
+    - Input:
+        - h: request_handle
+        - b: body_handle
+        - backend: string
+        - error_detail: mut_ptr<send_error_detail>
+    - Output:
+        - mut_ptr<response_handle>
+        - mut_ptr<body_handle>
+
 function send_async(): fastly_status
     - Input:
         - h: request_handle
         - b: body_handle
         - backend: string
+    - Output:
+        - mut_ptr<pending_request_handle>
+
+function send_async_v2(): fastly_status
+    - Input:
+        - h: request_handle
+        - b: body_handle
+        - backend: string
+        - streaming: u32
     - Output:
         - mut_ptr<pending_request_handle>
 
@@ -1093,6 +1832,23 @@ function register_dynamic_backend(): fastly_status
         - backend_configuration: mut_ptr<dynamic_backend_config>
     - No output
 
+function inspect(): fastly_status
+    - Input:
+        - req: request_handle
+        - body: body_handle
+        - insp_info_mask: inspect_info_mask
+        - insp_info: mut_ptr<inspect_info>
+        - buf: mut_ptr<char8>
+        - buf_len: usize
+    - Output:
+        - mut_ptr<num_bytes>
+
+function on_behalf_of(): fastly_status
+    - Input:
+        - req: request_handle
+        - service: string
+    - No output
+
 
 ---------------------- Module: [fastly_http_resp] ----------------------
 
@@ -1205,10 +1961,122 @@ function http_keepalive_mode_set(): fastly_status
         - mode: http_keepalive_mode
     - No output
 
+function get_addr_dest_ip(): fastly_status
+    - Input:
+        - h: response_handle
+        - addr_octets_out: mut_ptr<char8>
+    - Output:
+        - mut_ptr<num_bytes>
+
+function get_addr_dest_port(): fastly_status
+    - Input:
+        - h: response_handle
+    - Output:
+        - mut_ptr<port>
+
+
+---------------------- Module: [fastly_image_optimizer] ----------------------
+
+function transform_image_optimizer_request(): fastly_status
+    - Input:
+        - origin_image_request: request_handle
+        - origin_image_request_body: body_handle
+        - origin_image_request_backend: string
+        - io_transform_config_mask: image_optimizer_transform_config_options
+        - io_transform_configuration: mut_ptr<image_optimizer_transform_config>
+        - io_error_detail: mut_ptr<image_optimizer_error_detail>
+    - Output:
+        - mut_ptr<response_handle>
+        - mut_ptr<body_handle>
+
+
+---------------------- Module: [fastly_kv_store] ----------------------
+
+function open(): fastly_status
+    - Input:
+        - name: string
+    - Output:
+        - mut_ptr<kv_store_handle>
+
+function lookup(): fastly_status
+    - Input:
+        - store: kv_store_handle
+        - key: string
+        - lookup_config_mask: kv_lookup_config_options
+        - lookup_configuration: mut_ptr<kv_lookup_config>
+        - handle_out: mut_ptr<kv_store_lookup_handle>
+    - No output
+
+function lookup_wait(): fastly_status
+    - Input:
+        - handle: kv_store_lookup_handle
+        - body_handle_out: mut_ptr<body_handle>
+        - metadata_buf: mut_ptr<char8>
+        - metadata_buf_len: usize
+        - nwritten_out: mut_ptr<usize>
+        - generation_out: mut_ptr<u32>
+        - kv_error_out: mut_ptr<kv_error>
+    - No output
+
+function lookup_wait_v2(): fastly_status
+    - Input:
+        - handle: kv_store_lookup_handle
+        - body_handle_out: mut_ptr<body_handle>
+        - metadata_buf: mut_ptr<char8>
+        - metadata_buf_len: usize
+        - nwritten_out: mut_ptr<usize>
+        - generation_out: mut_ptr<u64>
+        - kv_error_out: mut_ptr<kv_error>
+    - No output
+
+function insert(): fastly_status
+    - Input:
+        - store: kv_store_handle
+        - key: string
+        - body_handle: body_handle
+        - insert_config_mask: kv_insert_config_options
+        - insert_configuration: mut_ptr<kv_insert_config>
+        - handle_out: mut_ptr<kv_store_insert_handle>
+    - No output
+
+function insert_wait(): fastly_status
+    - Input:
+        - handle: kv_store_insert_handle
+        - kv_error_out: mut_ptr<kv_error>
+    - No output
+
+function delete(): fastly_status
+    - Input:
+        - store: kv_store_handle
+        - key: string
+        - delete_config_mask: kv_delete_config_options
+        - delete_configuration: mut_ptr<kv_delete_config>
+        - handle_out: mut_ptr<kv_store_delete_handle>
+    - No output
+
+function delete_wait(): fastly_status
+    - Input:
+        - handle: kv_store_delete_handle
+        - kv_error_out: mut_ptr<kv_error>
+    - No output
+
+function list(): fastly_status
+    - Input:
+        - store: kv_store_handle
+        - list_config_mask: kv_list_config_options
+        - list_configuration: mut_ptr<kv_list_config>
+        - handle_out: mut_ptr<kv_store_list_handle>
+    - No output
+
+function list_wait(): fastly_status
+    - Input:
+        - handle: kv_store_list_handle
+        - body_handle_out: mut_ptr<body_handle>
+        - kv_error_out: mut_ptr<kv_error>
+    - No output
+
 
 ---------------------- Module: [fastly_kv] ----------------------
-
-alias kv_store_handle = handle
 
 function open(): fastly_status
     - Input:
@@ -1268,20 +2136,13 @@ function lookup_async(): fastly_status
     - Input:
         - store: object_store_handle
         - key: string
-        - pending_handle_out: mut_ptr<pending_object_store_lookup_handle>
+        - pending_handle_out: mut_ptr<pending_kv_lookup_handle>
     - No output
 
 function pending_lookup_wait(): fastly_status
     - Input:
-        - pending_objstr_handle: pending_object_store_lookup_handle
+        - pending_objstr_handle: pending_kv_lookup_handle
         - body_handle_out: mut_ptr<body_handle>
-    - No output
-
-function lookup_as_fd(): fastly_status
-    - Input:
-        - store: object_store_handle
-        - key: string
-        - fd_out: mut_ptr<u32>
     - No output
 
 function insert(): fastly_status
@@ -1296,24 +2157,24 @@ function insert_async(): fastly_status
         - store: object_store_handle
         - key: string
         - body_handle: body_handle
-        - pending_handle_out: mut_ptr<pending_object_store_insert_handle>
+        - pending_handle_out: mut_ptr<pending_kv_insert_handle>
     - No output
 
 function pending_insert_wait(): fastly_status
     - Input:
-        - pending_objstr_handle: pending_object_store_insert_handle
+        - pending_objstr_handle: pending_kv_insert_handle
     - No output
 
 function delete_async(): fastly_status
     - Input:
         - store: object_store_handle
         - key: string
-        - pending_handle_out: mut_ptr<pending_object_store_delete_handle>
+        - pending_handle_out: mut_ptr<pending_kv_delete_handle>
     - No output
 
 function pending_delete_wait(): fastly_status
     - Input:
-        - pending_objstr_handle: pending_object_store_delete_handle
+        - pending_objstr_handle: pending_kv_delete_handle
     - No output
 
 
@@ -1358,6 +2219,38 @@ function from_bytes(): fastly_status
         - mut_ptr<secret_handle>
 
 
+---------------------- Module: [fastly_shielding] ----------------------
+
+constants shield_backend_options: (type: u32)
+predefined constants for shield_backend_options:
+    - reserved = 0x1
+    - use_cache_key = 0x2
+    - first_byte_timeout = 0x4
+
+struct shield_backend_config:
+    - cache_key: mut_ptr<char8>
+    - cache_key_len: u32
+    - first_byte_timeout_ms: u32
+
+function shield_info(): fastly_status
+    - Input:
+        - name: string
+        - info_block: mut_ptr<char8>
+        - info_block_max_len: usize
+    - Output:
+        - mut_ptr<num_bytes>
+
+function backend_for_shield(): fastly_status
+    - Input:
+        - shield_name: string
+        - backend_config_mask: shield_backend_options
+        - backend_configuration: mut_ptr<shield_backend_config>
+        - backend_name_out: mut_ptr<char8>
+        - backend_name_max_len: usize
+    - Output:
+        - mut_ptr<num_bytes>
+
+
 ---------------------- Module: [fastly_uap] ----------------------
 
 function parse(): fastly_status
@@ -1376,4 +2269,383 @@ function parse(): fastly_status
         - patch_len: usize
         - patch_nwritten_out: mut_ptr<usize>
     - No output
+
+
+---------------------- Module: [typenames] ----------------------
+
+enum fastly_status: (tag: u32)
+    - ok: 0
+    - error: 1
+    - inval: 2
+    - badf: 3
+    - buflen: 4
+    - unsupported: 5
+    - badalign: 6
+    - httpinvalid: 7
+    - httpuser: 8
+    - httpincomplete: 9
+    - none: 10
+    - httpheadtoolarge: 11
+    - httpinvalidstatus: 12
+    - limitexceeded: 13
+    - again: 14
+
+enum http_version: (tag: u32)
+    - http_09: 0
+    - http_10: 1
+    - http_11: 2
+    - h2: 3
+    - h3: 4
+
+alias http_status = u16
+
+enum body_write_end: (tag: u32)
+    - back: 0
+    - front: 1
+
+alias body_handle = handle
+
+alias request_handle = handle
+
+alias response_handle = handle
+
+alias pending_request_handle = handle
+
+alias endpoint_handle = handle
+
+alias dictionary_handle = handle
+
+alias object_store_handle = handle
+
+alias pending_kv_lookup_handle = handle
+
+alias pending_kv_insert_handle = handle
+
+alias pending_kv_delete_handle = handle
+
+alias pending_kv_list_handle = handle
+
+alias kv_store_handle = handle
+
+alias kv_store_lookup_handle = handle
+
+alias kv_store_insert_handle = handle
+
+alias kv_store_delete_handle = handle
+
+alias kv_store_list_handle = handle
+
+alias secret_store_handle = handle
+
+alias secret_handle = handle
+
+alias acl_handle = handle
+
+alias request_promise_handle = handle
+
+alias async_item_handle = handle
+
+alias multi_value_cursor = u32
+
+alias multi_value_cursor_result = i64
+
+constants cache_override_tag: (type: u32)
+predefined constants for cache_override_tag:
+    - pass = 0x1
+    - ttl = 0x2
+    - stale_while_revalidate = 0x4
+    - pci = 0x8
+
+alias num_bytes = usize
+
+alias header_count = u32
+
+alias is_done = u32
+
+alias done_idx = u32
+
+alias is_valid = u32
+
+alias inserted = u32
+
+alias ready_idx = u32
+
+alias ddos_detected = u32
+
+alias port = u16
+
+alias timeout_ms = u32
+
+alias timeout_secs = u32
+
+alias probe_count = u32
+
+alias backend_exists = u32
+
+alias is_dynamic = u32
+
+alias is_keepalive = u32
+
+alias is_ssl = u32
+
+enum backend_health: (tag: u32)
+    - unknown: 0
+    - healthy: 1
+    - unhealthy: 2
+
+constants content_encodings: (type: u32)
+predefined constants for content_encodings:
+    - gzip = 1
+
+enum framing_headers_mode: (tag: u32)
+    - automatic: 0
+    - manually_from_headers: 1
+
+enum http_keepalive_mode: (tag: u32)
+    - automatic: 0
+    - no_keepalive: 1
+
+enum tls_version: (tag: u32)
+    - tls_1: 0
+    - tls_1_1: 1
+    - tls_1_2: 2
+    - tls_1_3: 3
+
+constants kv_lookup_config_options: (type: u32)
+predefined constants for kv_lookup_config_options:
+    - reserved = 1
+
+struct kv_lookup_config:
+    - reserved: u32
+
+constants kv_delete_config_options: (type: u32)
+predefined constants for kv_delete_config_options:
+    - reserved = 1
+
+struct kv_delete_config:
+    - reserved: u32
+
+constants kv_insert_config_options: (type: u32)
+predefined constants for kv_insert_config_options:
+    - reserved = 0x1
+    - background_fetch = 0x2
+    - reserved_2 = 0x4
+    - metadata = 0x8
+    - time_to_live_sec = 0x10
+    - if_generation_match = 0x20
+
+enum kv_insert_mode: (tag: u32)
+    - overwrite: 0
+    - add: 1
+    - append: 2
+    - prepend: 3
+
+struct kv_insert_config:
+    - mode: kv_insert_mode
+    - unused: u32
+    - metadata: mut_ptr<char8>
+    - metadata_len: u32
+    - time_to_live_sec: u32
+    - if_generation_match: u64
+
+constants kv_list_config_options: (type: u32)
+predefined constants for kv_list_config_options:
+    - reserved = 0x1
+    - cursor = 0x2
+    - limit = 0x4
+    - prefix = 0x8
+
+enum kv_list_mode: (tag: u32)
+    - strong: 0
+    - eventual: 1
+
+struct kv_list_config:
+    - mode: kv_list_mode
+    - cursor: mut_ptr<char8>
+    - cursor_len: u32
+    - limit: u32
+    - prefix: mut_ptr<char8>
+    - prefix_len: u32
+
+enum kv_error: (tag: u32)
+    - uninitialized: 0
+    - ok: 1
+    - bad_request: 2
+    - not_found: 3
+    - precondition_failed: 4
+    - payload_too_large: 5
+    - internal_error: 6
+    - too_many_requests: 7
+
+constants backend_config_options: (type: u32)
+predefined constants for backend_config_options:
+    - reserved = 0x1
+    - host_override = 0x2
+    - connect_timeout = 0x4
+    - first_byte_timeout = 0x8
+    - between_bytes_timeout = 0x10
+    - use_ssl = 0x20
+    - ssl_min_version = 0x40
+    - ssl_max_version = 0x80
+    - cert_hostname = 0x100
+    - ca_cert = 0x200
+    - ciphers = 0x400
+    - sni_hostname = 0x800
+    - dont_pool = 0x1000
+    - client_cert = 0x2000
+    - grpc = 0x4000
+    - keepalive = 0x8000
+    - pooling_limits = 0x10000
+    - prefer_ipv4 = 0x20000
+
+struct dynamic_backend_config:
+    - host_override: mut_ptr<char8>
+    - host_override_len: u32
+    - connect_timeout_ms: u32
+    - first_byte_timeout_ms: u32
+    - between_bytes_timeout_ms: u32
+    - ssl_min_version: tls_version
+    - ssl_max_version: tls_version
+    - cert_hostname: mut_ptr<char8>
+    - cert_hostname_len: u32
+    - ca_cert: mut_ptr<char8>
+    - ca_cert_len: u32
+    - ciphers: mut_ptr<char8>
+    - ciphers_len: u32
+    - sni_hostname: mut_ptr<char8>
+    - sni_hostname_len: u32
+    - client_certificate: mut_ptr<char8>
+    - client_certificate_len: u32
+    - client_key: secret_handle
+    - http_keepalive_time_ms: timeout_ms
+    - tcp_keepalive_enable: u32
+    - tcp_keepalive_interval_secs: timeout_secs
+    - tcp_keepalive_probes: probe_count
+    - tcp_keepalive_time_secs: timeout_secs
+    - max_connections: u32
+    - max_use: u32
+    - max_lifetime_ms: timeout_ms
+
+enum client_cert_verify_result: (tag: u32)
+    - ok: 0
+    - bad_certificate: 1
+    - certificate_revoked: 2
+    - certificate_expired: 3
+    - unknown_ca: 4
+    - certificate_missing: 5
+    - certificate_unknown: 6
+
+constants purge_options_mask: (type: u32)
+predefined constants for purge_options_mask:
+    - soft_purge = 1
+    - ret_buf = 2
+
+struct purge_options:
+    - ret_buf_ptr: mut_ptr<u8>
+    - ret_buf_len: usize
+    - ret_buf_nwritten_out: mut_ptr<usize>
+
+enum send_error_detail_tag: (tag: u32)
+    - uninitialized: 0
+    - ok: 1
+    - dns_timeout: 2
+    - dns_error: 3
+    - destination_not_found: 4
+    - destination_unavailable: 5
+    - destination_ip_unroutable: 6
+    - connection_refused: 7
+    - connection_terminated: 8
+    - connection_timeout: 9
+    - connection_limit_reached: 10
+    - tls_certificate_error: 11
+    - tls_configuration_error: 12
+    - http_incomplete_response: 13
+    - http_response_header_section_too_large: 14
+    - http_response_body_too_large: 15
+    - http_response_timeout: 16
+    - http_response_status_invalid: 17
+    - http_upgrade_failed: 18
+    - http_protocol_error: 19
+    - http_request_cache_key_invalid: 20
+    - http_request_uri_invalid: 21
+    - internal_error: 22
+    - tls_alert_received: 23
+    - tls_protocol_error: 24
+
+constants send_error_detail_mask: (type: u32)
+predefined constants for send_error_detail_mask:
+    - reserved = 0x1
+    - dns_error_rcode = 0x2
+    - dns_error_info_code = 0x4
+    - tls_alert_id = 0x8
+
+struct send_error_detail:
+    - tag: send_error_detail_tag
+    - mask: send_error_detail_mask
+    - dns_error_rcode: u16
+    - dns_error_info_code: u16
+    - tls_alert_id: u8
+
+alias blocked = u32
+
+alias rate = u32
+
+alias count = u32
+
+alias has = u32
+
+alias body_length = u64
+
+alias vcpu_ms = u64
+
+alias memory_mib = u32
+
+constants inspect_info_mask: (type: u32)
+predefined constants for inspect_info_mask:
+    - reserved = 0x1
+    - corp = 0x2
+    - workspace = 0x4
+    - override_client_ip = 0x8
+
+struct inspect_info:
+    - corp: mut_ptr<char8>
+    - corp_len: u32
+    - workspace: mut_ptr<char8>
+    - workspace_len: u32
+    - override_client_ip_ptr: mut_ptr<u8>
+    - override_client_ip_len: u32
+
+enum acl_error: (tag: u32)
+    - uninitialized: 0
+    - ok: 1
+    - no_content: 2
+    - too_many_requests: 3
+
+constants image_optimizer_transform_config_options: (type: u32)
+predefined constants for image_optimizer_transform_config_options:
+    - reserved = 1
+    - sdk_claims_opts = 2
+
+struct image_optimizer_transform_config:
+    - sdk_claims_opts: mut_ptr<char8>
+    - sdk_claims_opts_len: u32
+
+enum image_optimizer_error_tag: (tag: u32)
+    - uninitialized: 0
+    - ok: 1
+    - error: 2
+    - warning: 3
+
+struct image_optimizer_error_detail:
+    - tag: image_optimizer_error_tag
+    - message: mut_ptr<char8>
+    - message_len: u32
+
+constants next_request_options_mask: (type: u32)
+predefined constants for next_request_options_mask:
+    - reserved = 1
+    - timeout = 2
+
+struct next_request_options:
+    - timeout_ms: u64
 

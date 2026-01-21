@@ -312,6 +312,8 @@
             $client_cert
             $grpc
             $keepalive
+            $pooling_limits
+            $prefer_ipv4
     ))
 
     (typename $dynamic_backend_config
@@ -339,6 +341,9 @@
             (field $tcp_keepalive_interval_secs $timeout_secs)
             (field $tcp_keepalive_probes $probe_count)
             (field $tcp_keepalive_time_secs $timeout_secs)
+            (field $max_connections u32)
+            (field $max_use u32)
+            (field $max_lifetime_ms $timeout_ms)
     ))
 
     ;;; TLS client certificate verified result from downstream.
@@ -489,6 +494,7 @@
 
     (typename $body_length u64)
     (typename $vcpu_ms u64)
+    (typename $memory_mib u32)
 
     (typename $inspect_info_mask
         (flags (@witx repr u32)
@@ -566,19 +572,4 @@
             ;; A maximum amount of time to wait for a downstream request to appear, in milliseconds.
             (field $timeout_ms u64)
     ))
-
-    ;;; Cache-related types shared between fastly_cache and fastly_http_cache
-    (typename $cache_object_length u64)
-    (typename $cache_duration_ns u64)
-    (typename $cache_hit_count u64)
-
-    ;;; The status of a cache lookup
-    (typename $cache_lookup_state
-        (flags (@witx repr u32)
-            $found ;; a cached object was found
-            $usable ;; the cached object is valid to use (implies $found)
-            $stale ;; the cached object is stale (but may or may not be valid to use)
-            $must_insert_or_update ;; this client is requested to insert or revalidate an object
-        )
-    )
 )

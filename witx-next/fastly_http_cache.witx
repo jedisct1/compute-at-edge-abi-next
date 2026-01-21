@@ -1,5 +1,9 @@
 (module $fastly_http_cache
     (use * from $typenames)
+    (use $cache_duration_ns from $fastly_cache)
+    (use $cache_object_length from $fastly_cache)
+    (use $cache_hit_count from $fastly_cache)
+    (use $cache_lookup_state from $fastly_cache)
     (resource $http_cache_handle_res)
 
     ;;; Overall, this should look very familiar to users of the Core Cache API. The primary differences

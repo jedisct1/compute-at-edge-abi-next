@@ -362,7 +362,7 @@ def transform_standalone_module(module_name, module_content):
 def main():
     """Main transformation function."""
     root_dir = Path(__file__).parent
-    output_dir = root_dir / "tmp" / "witx-next-generated"
+    output_dir = root_dir / "witx-next"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     print(f"Generating witx-next files to: {output_dir}")

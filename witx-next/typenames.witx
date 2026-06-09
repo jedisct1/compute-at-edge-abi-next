@@ -176,6 +176,22 @@
             $healthy
             $unhealthy))
 
+    (typename $bot_analyzed u32)
+    (typename $bot_detected u32)
+    (typename $bot_category_kind u32)
+    (typename $bot_verified u32)
+
+    (typename $resvpnproxy_is_anonymous u32)
+    (typename $resvpnproxy_is_anonymous_vpn u32)
+    (typename $resvpnproxy_is_hosting_provider u32)
+    (typename $resvpnproxy_is_proxy_over_vpn u32)
+    (typename $resvpnproxy_is_public_proxy u32)
+    (typename $resvpnproxy_is_relay_proxy u32)
+    (typename $resvpnproxy_is_residential_proxy u32)
+    (typename $resvpnproxy_is_smart_dns_proxy u32)
+    (typename $resvpnproxy_is_tor_exit_node u32)
+    (typename $resvpnproxy_is_vpn_datacenter u32)
+
     (typename $content_encodings
         (flags (@witx repr u32)
             $gzip))
@@ -463,6 +479,9 @@
             ;;; The system encountered a TLS error when communicating with the backend, either during
             ;;; the handshake or afterwards.
             $tls_protocol_error
+            ;;; The system received an HTTP/2 error code from the server. The fields $h2_error_frame and
+            ;;; $h2_error_code may be set in the $send_error_detail.
+            $h2_error
     ))
 
     ;;; Mask representing which fields are understood by the guest, and which have been set by the host.
@@ -476,6 +495,7 @@
             $dns_error_rcode
             $dns_error_info_code
             $tls_alert_id
+            $h2_error
     ))
 
     (typename $send_error_detail
@@ -485,6 +505,8 @@
             (field $dns_error_rcode u16)
             (field $dns_error_info_code u16)
             (field $tls_alert_id u8)
+            (field $h2_error_frame u8)
+            (field $h2_error_code u32)
     ))
 
     (typename $blocked u32)
@@ -572,4 +594,19 @@
             ;; A maximum amount of time to wait for a downstream request to appear, in milliseconds.
             (field $timeout_ms u64)
     ))
+
+    ;;; Kinds of responses to pending request handles.
+    (typename $pending_response_kind
+        (enum (@witx tag u32)
+            ;;; Apply the queued change to the response sent downstream, regardless of whether
+            ;;; it originally came from the origin or was a synthetic 5XX response.
+            $any
+
+            ;;; Only apply the queued change to an actual response to the request.
+            $response
+
+            ;;; Only apply the queued change to the synthetic response made when the request fails.
+            $error
+        )
+    )
 )

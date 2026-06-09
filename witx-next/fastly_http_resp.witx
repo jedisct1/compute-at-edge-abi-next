@@ -84,6 +84,18 @@
         (result $err (expected (error $fastly_status)))
     )
 
+    ;;; Use a pending request handle to send a downstream response.
+    ;;;
+    ;;; This will cause Compute to wait in the background for the pending request handle to
+    ;;; resolve into its response headers and body, and then forward them back downstream.
+    ;;;
+    ;;; If the pending request fails while sending and a response never materializes, Compute
+    ;;; will generate a 5XX response to send in its stead.
+    (@interface func (export "send_downstream_pending")
+        (param $handle $pending_request_handle)
+        (result $err (expected (error $fastly_status)))
+    )
+
     (@interface func (export "status_get")
         (param $h $response_handle)
         (result $err (expected $http_status (error $fastly_status)))

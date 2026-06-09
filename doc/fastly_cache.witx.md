@@ -5,7 +5,7 @@
 
 ### Types list:
 
-[**[All](#types)**] - [_[`fastly_status`](#fastly_status)_] - [_[`http_version`](#http_version)_] - [_[`http_status`](#http_status)_] - [_[`body_write_end`](#body_write_end)_] - [_[`body_handle`](#body_handle)_] - [_[`request_handle`](#request_handle)_] - [_[`response_handle`](#response_handle)_] - [_[`pending_request_handle`](#pending_request_handle)_] - [_[`endpoint_handle`](#endpoint_handle)_] - [_[`dictionary_handle`](#dictionary_handle)_] - [_[`object_store_handle`](#object_store_handle)_] - [_[`pending_kv_lookup_handle`](#pending_kv_lookup_handle)_] - [_[`pending_kv_insert_handle`](#pending_kv_insert_handle)_] - [_[`pending_kv_delete_handle`](#pending_kv_delete_handle)_] - [_[`pending_kv_list_handle`](#pending_kv_list_handle)_] - [_[`kv_store_handle`](#kv_store_handle)_] - [_[`kv_store_lookup_handle`](#kv_store_lookup_handle)_] - [_[`kv_store_insert_handle`](#kv_store_insert_handle)_] - [_[`kv_store_delete_handle`](#kv_store_delete_handle)_] - [_[`kv_store_list_handle`](#kv_store_list_handle)_] - [_[`secret_store_handle`](#secret_store_handle)_] - [_[`secret_handle`](#secret_handle)_] - [_[`acl_handle`](#acl_handle)_] - [_[`request_promise_handle`](#request_promise_handle)_] - [_[`async_item_handle`](#async_item_handle)_] - [_[`multi_value_cursor`](#multi_value_cursor)_] - [_[`multi_value_cursor_result`](#multi_value_cursor_result)_] - [_[`cache_override_tag`](#cache_override_tag)_] - [_[`num_bytes`](#num_bytes)_] - [_[`header_count`](#header_count)_] - [_[`is_done`](#is_done)_] - [_[`done_idx`](#done_idx)_] - [_[`is_valid`](#is_valid)_] - [_[`inserted`](#inserted)_] - [_[`ready_idx`](#ready_idx)_] - [_[`ddos_detected`](#ddos_detected)_] - [_[`port`](#port)_] - [_[`timeout_ms`](#timeout_ms)_] - [_[`timeout_secs`](#timeout_secs)_] - [_[`probe_count`](#probe_count)_] - [_[`backend_exists`](#backend_exists)_] - [_[`is_dynamic`](#is_dynamic)_] - [_[`is_keepalive`](#is_keepalive)_] - [_[`is_ssl`](#is_ssl)_] - [_[`backend_health`](#backend_health)_] - [_[`content_encodings`](#content_encodings)_] - [_[`framing_headers_mode`](#framing_headers_mode)_] - [_[`http_keepalive_mode`](#http_keepalive_mode)_] - [_[`tls_version`](#tls_version)_] - [_[`kv_lookup_config_options`](#kv_lookup_config_options)_] - [_[`kv_lookup_config`](#kv_lookup_config)_] - [_[`kv_delete_config_options`](#kv_delete_config_options)_] - [_[`kv_delete_config`](#kv_delete_config)_] - [_[`kv_insert_config_options`](#kv_insert_config_options)_] - [_[`kv_insert_mode`](#kv_insert_mode)_] - [_[`kv_insert_config`](#kv_insert_config)_] - [_[`kv_list_config_options`](#kv_list_config_options)_] - [_[`kv_list_mode`](#kv_list_mode)_] - [_[`kv_list_config`](#kv_list_config)_] - [_[`kv_error`](#kv_error)_] - [_[`backend_config_options`](#backend_config_options)_] - [_[`dynamic_backend_config`](#dynamic_backend_config)_] - [_[`client_cert_verify_result`](#client_cert_verify_result)_] - [_[`purge_options_mask`](#purge_options_mask)_] - [_[`purge_options`](#purge_options)_] - [_[`send_error_detail_tag`](#send_error_detail_tag)_] - [_[`send_error_detail_mask`](#send_error_detail_mask)_] - [_[`send_error_detail`](#send_error_detail)_] - [_[`blocked`](#blocked)_] - [_[`rate`](#rate)_] - [_[`count`](#count)_] - [_[`has`](#has)_] - [_[`body_length`](#body_length)_] - [_[`vcpu_ms`](#vcpu_ms)_] - [_[`memory_mib`](#memory_mib)_] - [_[`inspect_info_mask`](#inspect_info_mask)_] - [_[`inspect_info`](#inspect_info)_] - [_[`acl_error`](#acl_error)_] - [_[`image_optimizer_transform_config_options`](#image_optimizer_transform_config_options)_] - [_[`image_optimizer_transform_config`](#image_optimizer_transform_config)_] - [_[`image_optimizer_error_tag`](#image_optimizer_error_tag)_] - [_[`image_optimizer_error_detail`](#image_optimizer_error_detail)_] - [_[`next_request_options_mask`](#next_request_options_mask)_] - [_[`next_request_options`](#next_request_options)_] - [_[`cache_handle`](#cache_handle)_] - [_[`cache_busy_handle`](#cache_busy_handle)_] - [_[`cache_replace_handle`](#cache_replace_handle)_] - [_[`cache_object_length`](#cache_object_length)_] - [_[`cache_duration_ns`](#cache_duration_ns)_] - [_[`cache_hit_count`](#cache_hit_count)_] - [_[`cache_replace_strategy`](#cache_replace_strategy)_] - [_[`cache_lookup_options`](#cache_lookup_options)_] - [_[`cache_lookup_options_mask`](#cache_lookup_options_mask)_] - [_[`cache_replace_options`](#cache_replace_options)_] - [_[`cache_replace_options_mask`](#cache_replace_options_mask)_] - [_[`cache_write_options`](#cache_write_options)_] - [_[`cache_write_options_mask`](#cache_write_options_mask)_] - [_[`cache_get_body_options`](#cache_get_body_options)_] - [_[`cache_get_body_options_mask`](#cache_get_body_options_mask)_] - [_[`cache_lookup_state`](#cache_lookup_state)_]
+[**[All](#types)**] - [_[`fastly_status`](#fastly_status)_] - [_[`http_version`](#http_version)_] - [_[`http_status`](#http_status)_] - [_[`body_write_end`](#body_write_end)_] - [_[`body_handle`](#body_handle)_] - [_[`request_handle`](#request_handle)_] - [_[`response_handle`](#response_handle)_] - [_[`pending_request_handle`](#pending_request_handle)_] - [_[`endpoint_handle`](#endpoint_handle)_] - [_[`dictionary_handle`](#dictionary_handle)_] - [_[`object_store_handle`](#object_store_handle)_] - [_[`pending_kv_lookup_handle`](#pending_kv_lookup_handle)_] - [_[`pending_kv_insert_handle`](#pending_kv_insert_handle)_] - [_[`pending_kv_delete_handle`](#pending_kv_delete_handle)_] - [_[`pending_kv_list_handle`](#pending_kv_list_handle)_] - [_[`kv_store_handle`](#kv_store_handle)_] - [_[`kv_store_lookup_handle`](#kv_store_lookup_handle)_] - [_[`kv_store_insert_handle`](#kv_store_insert_handle)_] - [_[`kv_store_delete_handle`](#kv_store_delete_handle)_] - [_[`kv_store_list_handle`](#kv_store_list_handle)_] - [_[`secret_store_handle`](#secret_store_handle)_] - [_[`secret_handle`](#secret_handle)_] - [_[`acl_handle`](#acl_handle)_] - [_[`request_promise_handle`](#request_promise_handle)_] - [_[`async_item_handle`](#async_item_handle)_] - [_[`multi_value_cursor`](#multi_value_cursor)_] - [_[`multi_value_cursor_result`](#multi_value_cursor_result)_] - [_[`cache_override_tag`](#cache_override_tag)_] - [_[`num_bytes`](#num_bytes)_] - [_[`header_count`](#header_count)_] - [_[`is_done`](#is_done)_] - [_[`done_idx`](#done_idx)_] - [_[`is_valid`](#is_valid)_] - [_[`inserted`](#inserted)_] - [_[`ready_idx`](#ready_idx)_] - [_[`ddos_detected`](#ddos_detected)_] - [_[`port`](#port)_] - [_[`timeout_ms`](#timeout_ms)_] - [_[`timeout_secs`](#timeout_secs)_] - [_[`probe_count`](#probe_count)_] - [_[`backend_exists`](#backend_exists)_] - [_[`is_dynamic`](#is_dynamic)_] - [_[`is_keepalive`](#is_keepalive)_] - [_[`is_ssl`](#is_ssl)_] - [_[`backend_health`](#backend_health)_] - [_[`bot_analyzed`](#bot_analyzed)_] - [_[`bot_detected`](#bot_detected)_] - [_[`bot_category_kind`](#bot_category_kind)_] - [_[`bot_verified`](#bot_verified)_] - [_[`resvpnproxy_is_anonymous`](#resvpnproxy_is_anonymous)_] - [_[`resvpnproxy_is_anonymous_vpn`](#resvpnproxy_is_anonymous_vpn)_] - [_[`resvpnproxy_is_hosting_provider`](#resvpnproxy_is_hosting_provider)_] - [_[`resvpnproxy_is_proxy_over_vpn`](#resvpnproxy_is_proxy_over_vpn)_] - [_[`resvpnproxy_is_public_proxy`](#resvpnproxy_is_public_proxy)_] - [_[`resvpnproxy_is_relay_proxy`](#resvpnproxy_is_relay_proxy)_] - [_[`resvpnproxy_is_residential_proxy`](#resvpnproxy_is_residential_proxy)_] - [_[`resvpnproxy_is_smart_dns_proxy`](#resvpnproxy_is_smart_dns_proxy)_] - [_[`resvpnproxy_is_tor_exit_node`](#resvpnproxy_is_tor_exit_node)_] - [_[`resvpnproxy_is_vpn_datacenter`](#resvpnproxy_is_vpn_datacenter)_] - [_[`content_encodings`](#content_encodings)_] - [_[`framing_headers_mode`](#framing_headers_mode)_] - [_[`http_keepalive_mode`](#http_keepalive_mode)_] - [_[`tls_version`](#tls_version)_] - [_[`kv_lookup_config_options`](#kv_lookup_config_options)_] - [_[`kv_lookup_config`](#kv_lookup_config)_] - [_[`kv_delete_config_options`](#kv_delete_config_options)_] - [_[`kv_delete_config`](#kv_delete_config)_] - [_[`kv_insert_config_options`](#kv_insert_config_options)_] - [_[`kv_insert_mode`](#kv_insert_mode)_] - [_[`kv_insert_config`](#kv_insert_config)_] - [_[`kv_list_config_options`](#kv_list_config_options)_] - [_[`kv_list_mode`](#kv_list_mode)_] - [_[`kv_list_config`](#kv_list_config)_] - [_[`kv_error`](#kv_error)_] - [_[`backend_config_options`](#backend_config_options)_] - [_[`dynamic_backend_config`](#dynamic_backend_config)_] - [_[`client_cert_verify_result`](#client_cert_verify_result)_] - [_[`purge_options_mask`](#purge_options_mask)_] - [_[`purge_options`](#purge_options)_] - [_[`send_error_detail_tag`](#send_error_detail_tag)_] - [_[`send_error_detail_mask`](#send_error_detail_mask)_] - [_[`send_error_detail`](#send_error_detail)_] - [_[`blocked`](#blocked)_] - [_[`rate`](#rate)_] - [_[`count`](#count)_] - [_[`has`](#has)_] - [_[`body_length`](#body_length)_] - [_[`vcpu_ms`](#vcpu_ms)_] - [_[`memory_mib`](#memory_mib)_] - [_[`inspect_info_mask`](#inspect_info_mask)_] - [_[`inspect_info`](#inspect_info)_] - [_[`acl_error`](#acl_error)_] - [_[`image_optimizer_transform_config_options`](#image_optimizer_transform_config_options)_] - [_[`image_optimizer_transform_config`](#image_optimizer_transform_config)_] - [_[`image_optimizer_error_tag`](#image_optimizer_error_tag)_] - [_[`image_optimizer_error_detail`](#image_optimizer_error_detail)_] - [_[`next_request_options_mask`](#next_request_options_mask)_] - [_[`next_request_options`](#next_request_options)_] - [_[`pending_response_kind`](#pending_response_kind)_] - [_[`cache_handle`](#cache_handle)_] - [_[`cache_busy_handle`](#cache_busy_handle)_] - [_[`cache_replace_handle`](#cache_replace_handle)_] - [_[`cache_object_length`](#cache_object_length)_] - [_[`cache_duration_ns`](#cache_duration_ns)_] - [_[`cache_hit_count`](#cache_hit_count)_] - [_[`cache_replace_strategy`](#cache_replace_strategy)_] - [_[`cache_lookup_options`](#cache_lookup_options)_] - [_[`cache_lookup_options_mask`](#cache_lookup_options_mask)_] - [_[`cache_replace_options`](#cache_replace_options)_] - [_[`cache_replace_options_mask`](#cache_replace_options_mask)_] - [_[`cache_write_options`](#cache_write_options)_] - [_[`cache_write_options_mask`](#cache_write_options_mask)_] - [_[`cache_get_body_options`](#cache_get_body_options)_] - [_[`cache_get_body_options_mask`](#cache_get_body_options_mask)_] - [_[`cache_lookup_state`](#cache_lookup_state)_]
 
 ### Functions list:
 
@@ -259,15 +259,15 @@ Alias for `handle`.
 > Can be a `body_handle`, `pending_request_handle`,
 > `cache_handle`, `cache_busy_handle`, `cache_replace_handle` (see cache.witx),
 > `request_promise_handle`, or other handles.
->
+> 
 > Each async item has an associated I/O action:
->
+> 
 > * Pending requests: awaiting the response headers / `Response` object
 > * Normal bodies: reading bytes from the body
 > * Streaming bodies: writing bytes to the body
 > * Cache handles: the caller has been selected to perform a fetch, or there is data ready
 > * Request promise: a new request is ready, or there will be no request provided via this handle
->
+> 
 > For writing bytes, note that there is a large host-side buffer that bytes can eagerly be written
 > into, even before the origin itself consumes that data.
 
@@ -412,6 +412,90 @@ Enumeration with tag type: `u32`, and the following members:
 * **`unknown`**: _[`backend_health`](#backend_health)_
 * **`healthy`**: _[`backend_health`](#backend_health)_
 * **`unhealthy`**: _[`backend_health`](#backend_health)_
+
+---
+
+### _[`bot_analyzed`](#bot_analyzed)_
+Alias for `u32`.
+
+
+---
+
+### _[`bot_detected`](#bot_detected)_
+Alias for `u32`.
+
+
+---
+
+### _[`bot_category_kind`](#bot_category_kind)_
+Alias for `u32`.
+
+
+---
+
+### _[`bot_verified`](#bot_verified)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_anonymous`](#resvpnproxy_is_anonymous)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_anonymous_vpn`](#resvpnproxy_is_anonymous_vpn)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_hosting_provider`](#resvpnproxy_is_hosting_provider)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_proxy_over_vpn`](#resvpnproxy_is_proxy_over_vpn)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_public_proxy`](#resvpnproxy_is_public_proxy)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_relay_proxy`](#resvpnproxy_is_relay_proxy)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_residential_proxy`](#resvpnproxy_is_residential_proxy)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_smart_dns_proxy`](#resvpnproxy_is_smart_dns_proxy)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_tor_exit_node`](#resvpnproxy_is_tor_exit_node)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_vpn_datacenter`](#resvpnproxy_is_vpn_datacenter)_
+Alias for `u32`.
+
 
 ---
 
@@ -700,6 +784,7 @@ Enumeration with tag type: `u32`, and the following members:
 * **`internal_error`**: _[`send_error_detail_tag`](#send_error_detail_tag)_
 * **`tls_alert_received`**: _[`send_error_detail_tag`](#send_error_detail_tag)_
 * **`tls_protocol_error`**: _[`send_error_detail_tag`](#send_error_detail_tag)_
+* **`h2_error`**: _[`send_error_detail_tag`](#send_error_detail_tag)_
 
 ---
 
@@ -713,9 +798,10 @@ Predefined constants for _[`send_error_detail_mask`](#send_error_detail_mask)_:
 * **`dns_error_rcode`** = `0x2`
 * **`dns_error_info_code`** = `0x4`
 * **`tls_alert_id`** = `0x8`
+* **`h2_error`** = `0x10`
 
 > Mask representing which fields are understood by the guest, and which have been set by the host.
->
+> 
 > When the guest calls hostcalls with a mask, it should set every bit in the mask that corresponds
 > to a defined flag. This signals the host to write only to fields with a set bit, allowing
 > forward compatibility for existing guest programs even after new fields are added to the struct.
@@ -731,6 +817,8 @@ Structure, with the following members:
 * **`dns_error_rcode`**: `u16`
 * **`dns_error_info_code`**: `u16`
 * **`tls_alert_id`**: `u8`
+* **`h2_error_frame`**: `u8`
+* **`h2_error_code`**: `u32`
 
 ---
 
@@ -869,6 +957,19 @@ Structure, with the following members:
 
 ---
 
+### _[`pending_response_kind`](#pending_response_kind)_
+
+Enumeration with tag type: `u32`, and the following members:
+
+* **`any`**: _[`pending_response_kind`](#pending_response_kind)_
+* **`response`**: _[`pending_response_kind`](#pending_response_kind)_
+* **`error`**: _[`pending_response_kind`](#pending_response_kind)_
+
+> Kinds of responses to pending request handles.
+
+
+---
+
 ### _[`cache_handle`](#cache_handle)_
 Alias for `handle`.
 
@@ -995,7 +1096,7 @@ Structure, with the following members:
 > - `transaction_insert`
 > - `transaction_insert_and_stream_back`
 > - `transaction_update`
->
+> 
 > Some options are only allowed for certain of these hostcalls; see `cache_write_options_mask`.
 
 
@@ -1051,6 +1152,7 @@ Predefined constants for _[`cache_lookup_state`](#cache_lookup_state)_:
 * **`usable`** = `0x2`
 * **`stale`** = `0x4`
 * **`must_insert_or_update`** = `0x8`
+* **`usable_if_error`** = `0x10`
 
 > The status of this lookup (and potential transaction)
 
@@ -1073,7 +1175,7 @@ Returned error type: _[`fastly_status`](#fastly_status)_
 * _[`cache_handle`](#cache_handle)_ mutable pointer
 
 > Performs a non-request-collapsing cache lookup.
->
+> 
 > Returns a result without waiting for any request collapsing that may be ongoing.
 
 
@@ -1093,7 +1195,7 @@ Returned error type: _[`fastly_status`](#fastly_status)_
 * _[`body_handle`](#body_handle)_ mutable pointer
 
 > Performs a non-request-collapsing cache insertion (or update).
->
+> 
 > The returned handle is to a streaming body that is used for writing the object into
 > the cache.
 
@@ -1114,7 +1216,7 @@ Returned error type: _[`fastly_status`](#fastly_status)_
 * _[`cache_replace_handle`](#cache_replace_handle)_ mutable pointer
 
 > The entrypoint to the replace API.
->
+> 
 > This operation always participates in request collapsing and may return stale objects.
 
 
@@ -1134,7 +1236,7 @@ Returned error type: _[`fastly_status`](#fastly_status)_
 * _[`body_handle`](#body_handle)_ mutable pointer
 
 > Replace an object in the cache with the given metadata
->
+> 
 > The returned handle is to a streaming body that is used for writing the object into
 > the cache.
 
@@ -1173,7 +1275,7 @@ Returned error type: _[`fastly_status`](#fastly_status)_
 
 > Gets a range of the existing object body, returning the `$none` error if there
 > was no existing object.
->
+> 
 > The returned `body_handle` must be closed before calling this function
 > again on the same `cache_replace_handle`.
 
@@ -1263,6 +1365,10 @@ Returned error type: _[`fastly_status`](#fastly_status)_
 
 > Gets the lookup state of the existing object during replace, returning
 > the `$none` error if there was no object.
+> 
+> Note that FOUND == USABLE, and means "usable" (fresh or stale-while-revalidate).
+> Some SDKs were released that checked only FOUND to infer "usable";
+> we preserve the equivalence for backwards compatibility.
 
 
 ---
@@ -1299,7 +1405,7 @@ Returned error type: _[`fastly_status`](#fastly_status)_
 * _[`cache_handle`](#cache_handle)_ mutable pointer
 
 > The entrypoint to the request-collapsing cache transaction API.
->
+> 
 > This operation always participates in request collapsing and may return stale objects. To bypass
 > request collapsing, use `lookup` and `insert` instead.
 
@@ -1320,7 +1426,7 @@ Returned error type: _[`fastly_status`](#fastly_status)_
 * _[`cache_busy_handle`](#cache_busy_handle)_ mutable pointer
 
 > The entrypoint to the request-collapsing cache transaction API, returning instead of waiting on busy.
->
+> 
 > This operation always participates in request collapsing and may return stale objects. To bypass
 > request collapsing, use `lookup` and `insert` instead.
 
@@ -1358,9 +1464,9 @@ Returned error type: _[`fastly_status`](#fastly_status)_
 * _[`body_handle`](#body_handle)_ mutable pointer
 
 > Insert an object into the cache with the given metadata.
->
+> 
 > Can only be used in if the cache handle state includes the `$must_insert_or_update` flag.
->
+> 
 > The returned handle is to a streaming body that is used for writing the object into
 > the cache.
 
@@ -1383,11 +1489,11 @@ Returned error type: _[`fastly_status`](#fastly_status)_
 
 > Insert an object into the cache with the given metadata, and return a readable stream of the
 > bytes as they are stored.
->
+> 
 > This helps avoid the "slow reader" problem on a teed stream, for example when a program wishes
 > to store a backend request in the cache while simultaneously streaming to a client in an HTTP
 > response.
->
+> 
 > The returned body handle is to a streaming body that is used for writing the object _into_
 > the cache. The returned cache handle provides a separate transaction for reading out the
 > newly cached object to send elsewhere.
@@ -1407,7 +1513,7 @@ Returned error type: _[`fastly_status`](#fastly_status)_
 This function has no output.
 
 > Update the metadata of an object in the cache without changing its data.
->
+> 
 > Can only be used in if the cache handle state includes both of the flags:
 > - `$found`
 > - `$must_insert_or_update`
@@ -1425,7 +1531,7 @@ Returned error type: _[`fastly_status`](#fastly_status)_
 This function has no output.
 
 > Cancel an obligation to provide an object to the cache.
->
+> 
 > Useful if there is an error before streaming is possible, e.g. if a backend is unreachable.
 
 
@@ -1455,7 +1561,7 @@ Returned error type: _[`fastly_status`](#fastly_status)_
 This function has no output.
 
 > Close an ongoing interaction with the cache.
->
+> 
 > If the cache handle state includes the `$must_insert_or_update` (and hence no insert or
 > update has been performed), closing the handle cancels any request collapsing, potentially
 > choosing a new waiter to perform the insertion/update.
@@ -1473,6 +1579,13 @@ Returned error type: _[`fastly_status`](#fastly_status)_
 #### Output:
 
 * _[`cache_lookup_state`](#cache_lookup_state)_ mutable pointer
+
+> Get the state of a cache lookup, waiting for the lookup to complete if necessary.
+> 
+> Note that FOUND == USABLE, and means "usable" (fresh or stale-while-revalidate).
+> Some SDKs were released that checked only FOUND to infer "usable";
+> we preserve the equivalence for backwards compatibility.
+
 
 ---
 
@@ -1509,7 +1622,7 @@ Returned error type: _[`fastly_status`](#fastly_status)_
 
 > Gets a range of the found object body, returning the `$none` error if there
 > was no found object.
->
+> 
 > The returned `body_handle` must be closed before calling this function again on the same
 > `cache_handle`.
 

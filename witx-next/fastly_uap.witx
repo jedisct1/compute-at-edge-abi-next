@@ -1,6 +1,7 @@
 (module $fastly_uap
     (use * from $typenames)
 
+    ;; DEPRECATED
     (@interface func (export "parse")
         (param $user_agent string)
 

@@ -1,5 +1,5 @@
 
-# Module: fastly_kv
+# Module: fastly_http_downstream
 
 ## Table of contents
 
@@ -9,7 +9,7 @@
 
 ### Functions list:
 
-[**[All](#functions)**] - [[`open()`](#open)] - [[`lookup()`](#lookup)] - [[`insert()`](#insert)]
+[**[All](#functions)**] - [[`next_request()`](#next_request)] - [[`next_request_wait()`](#next_request_wait)] - [[`next_request_abandon()`](#next_request_abandon)] - [[`downstream_original_header_names()`](#downstream_original_header_names)] - [[`downstream_original_header_count()`](#downstream_original_header_count)] - [[`downstream_client_ip_addr()`](#downstream_client_ip_addr)] - [[`downstream_server_ip_addr()`](#downstream_server_ip_addr)] - [[`downstream_client_h2_fingerprint()`](#downstream_client_h2_fingerprint)] - [[`downstream_client_request_id()`](#downstream_client_request_id)] - [[`downstream_client_oh_fingerprint()`](#downstream_client_oh_fingerprint)] - [[`downstream_client_ddos_detected()`](#downstream_client_ddos_detected)] - [[`downstream_tls_cipher_openssl_name()`](#downstream_tls_cipher_openssl_name)] - [[`downstream_tls_protocol()`](#downstream_tls_protocol)] - [[`downstream_tls_client_hello()`](#downstream_tls_client_hello)] - [[`downstream_tls_raw_client_certificate()`](#downstream_tls_raw_client_certificate)] - [[`downstream_tls_client_cert_verify_result()`](#downstream_tls_client_cert_verify_result)] - [[`downstream_tls_client_servername()`](#downstream_tls_client_servername)] - [[`downstream_tls_ja3_md5()`](#downstream_tls_ja3_md5)] - [[`downstream_tls_ja4()`](#downstream_tls_ja4)] - [[`downstream_compliance_region()`](#downstream_compliance_region)] - [[`fastly_key_is_valid()`](#fastly_key_is_valid)] - [[`downstream_bot_analyzed()`](#downstream_bot_analyzed)] - [[`downstream_bot_detected()`](#downstream_bot_detected)] - [[`downstream_bot_name()`](#downstream_bot_name)] - [[`downstream_bot_category()`](#downstream_bot_category)] - [[`downstream_bot_category_kind()`](#downstream_bot_category_kind)] - [[`downstream_bot_verified()`](#downstream_bot_verified)] - [[`downstream_resvpnproxy_is_anonymous()`](#downstream_resvpnproxy_is_anonymous)] - [[`downstream_resvpnproxy_is_anonymous_vpn()`](#downstream_resvpnproxy_is_anonymous_vpn)] - [[`downstream_resvpnproxy_is_hosting_provider()`](#downstream_resvpnproxy_is_hosting_provider)] - [[`downstream_resvpnproxy_is_proxy_over_vpn()`](#downstream_resvpnproxy_is_proxy_over_vpn)] - [[`downstream_resvpnproxy_is_public_proxy()`](#downstream_resvpnproxy_is_public_proxy)] - [[`downstream_resvpnproxy_is_relay_proxy()`](#downstream_resvpnproxy_is_relay_proxy)] - [[`downstream_resvpnproxy_is_residential_proxy()`](#downstream_resvpnproxy_is_residential_proxy)] - [[`downstream_resvpnproxy_is_smart_dns_proxy()`](#downstream_resvpnproxy_is_smart_dns_proxy)] - [[`downstream_resvpnproxy_is_tor_exit_node()`](#downstream_resvpnproxy_is_tor_exit_node)] - [[`downstream_resvpnproxy_is_vpn_datacenter()`](#downstream_resvpnproxy_is_vpn_datacenter)] - [[`downstream_resvpnproxy_vpn_service_name()`](#downstream_resvpnproxy_vpn_service_name)]
 
 ## Types
 
@@ -972,45 +972,527 @@ Enumeration with tag type: `u32`, and the following members:
 
 ## Functions
 
-### [`open()`](#open)
+### [`next_request()`](#next_request)
 Returned error type: _[`fastly_status`](#fastly_status)_
 
 #### Input:
 
-* **`name`**: `string`
+* **`options_mask`**: _[`next_request_options_mask`](#next_request_options_mask)_
+* **`options`**: _[`next_request_options`](#next_request_options)_ mutable pointer
 
 #### Output:
 
-* _[`kv_store_handle`](#kv_store_handle)_ mutable pointer
+* _[`request_promise_handle`](#request_promise_handle)_ mutable pointer
+
+> Indicate to the host that we will accept a new request from a client in the future.
+
 
 ---
 
-### [`lookup()`](#lookup)
+### [`next_request_wait()`](#next_request_wait)
 Returned error type: _[`fastly_status`](#fastly_status)_
 
 #### Input:
 
-* **`store`**: _[`kv_store_handle`](#kv_store_handle)_
-* **`key`**: `u8` mutable slice
-* **`opt_body_handle_out`**: _[`body_handle`](#body_handle)_ mutable pointer
+* **`handle`**: _[`request_promise_handle`](#request_promise_handle)_
+
+#### Output:
+
+* _[`request_handle`](#request_handle)_ mutable pointer
+* _[`body_handle`](#body_handle)_ mutable pointer
+
+> Block until an additional request from a client is ready,
+> and return the request and its associated body.
+
+
+---
+
+### [`next_request_abandon()`](#next_request_abandon)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`handle`**: _[`request_promise_handle`](#request_promise_handle)_
+
+This function has no output.
+
+> Abandon a promised future request. Indicate that we are no longer willing to receive
+> an additional request from a client in the future.
+
+
+---
+
+### [`downstream_original_header_names()`](#downstream_original_header_names)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+* **`buf`**: `char8` mutable pointer
+* **`buf_len`**: `usize`
+* **`cursor`**: _[`multi_value_cursor`](#multi_value_cursor)_
+* **`ending_cursor_out`**: _[`multi_value_cursor_result`](#multi_value_cursor_result)_ mutable pointer
+* **`nwritten_out`**: `usize` mutable pointer
 
 This function has no output.
 
 ---
 
-### [`insert()`](#insert)
+### [`downstream_original_header_count()`](#downstream_original_header_count)
 Returned error type: _[`fastly_status`](#fastly_status)_
 
 #### Input:
 
-* **`store`**: _[`kv_store_handle`](#kv_store_handle)_
-* **`key`**: `u8` mutable slice
-* **`body_handle`**: _[`body_handle`](#body_handle)_
-* **`max_age`**: `u32`
+* **`req`**: _[`request_handle`](#request_handle)_
 
 #### Output:
 
-* _[`inserted`](#inserted)_ mutable pointer
+* _[`header_count`](#header_count)_ mutable pointer
+
+---
+
+### [`downstream_client_ip_addr()`](#downstream_client_ip_addr)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+* **`addr_octets_out`**: `char8` mutable pointer
+
+#### Output:
+
+* _[`num_bytes`](#num_bytes)_ mutable pointer
+
+---
+
+### [`downstream_server_ip_addr()`](#downstream_server_ip_addr)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+* **`addr_octets_out`**: `char8` mutable pointer
+
+#### Output:
+
+* _[`num_bytes`](#num_bytes)_ mutable pointer
+
+---
+
+### [`downstream_client_h2_fingerprint()`](#downstream_client_h2_fingerprint)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+* **`h2fp_out`**: `char8` mutable pointer
+* **`h2fp_max_len`**: `usize`
+* **`nwritten_out`**: `usize` mutable pointer
+
+This function has no output.
+
+---
+
+### [`downstream_client_request_id()`](#downstream_client_request_id)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+* **`reqid_out`**: `char8` mutable pointer
+* **`reqid_max_len`**: `usize`
+* **`nwritten_out`**: `usize` mutable pointer
+
+This function has no output.
+
+---
+
+### [`downstream_client_oh_fingerprint()`](#downstream_client_oh_fingerprint)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+* **`ohfp_out`**: `char8` mutable pointer
+* **`ohfp_max_len`**: `usize`
+* **`nwritten_out`**: `usize` mutable pointer
+
+This function has no output.
+
+---
+
+### [`downstream_client_ddos_detected()`](#downstream_client_ddos_detected)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+
+#### Output:
+
+* _[`ddos_detected`](#ddos_detected)_ mutable pointer
+
+---
+
+### [`downstream_tls_cipher_openssl_name()`](#downstream_tls_cipher_openssl_name)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+* **`cipher_out`**: `char8` mutable pointer
+* **`cipher_max_len`**: `usize`
+* **`nwritten_out`**: `usize` mutable pointer
+
+This function has no output.
+
+---
+
+### [`downstream_tls_protocol()`](#downstream_tls_protocol)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+* **`protocol_out`**: `char8` mutable pointer
+* **`protocol_max_len`**: `usize`
+* **`nwritten_out`**: `usize` mutable pointer
+
+This function has no output.
+
+---
+
+### [`downstream_tls_client_hello()`](#downstream_tls_client_hello)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+* **`chello_out`**: `char8` mutable pointer
+* **`chello_max_len`**: `usize`
+* **`nwritten_out`**: `usize` mutable pointer
+
+This function has no output.
+
+---
+
+### [`downstream_tls_raw_client_certificate()`](#downstream_tls_raw_client_certificate)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+* **`raw_client_cert_out`**: `char8` mutable pointer
+* **`raw_client_cert_max_len`**: `usize`
+* **`nwritten_out`**: `usize` mutable pointer
+
+This function has no output.
+
+---
+
+### [`downstream_tls_client_cert_verify_result()`](#downstream_tls_client_cert_verify_result)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+
+#### Output:
+
+* _[`client_cert_verify_result`](#client_cert_verify_result)_ mutable pointer
+
+---
+
+### [`downstream_tls_client_servername()`](#downstream_tls_client_servername)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+* **`tls_sni_out`**: `char8` mutable pointer
+* **`tls_sni_max_len`**: `usize`
+* **`nwritten_out`**: `usize` mutable pointer
+
+This function has no output.
+
+---
+
+### [`downstream_tls_ja3_md5()`](#downstream_tls_ja3_md5)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+* **`cja3_md5_out`**: `char8` mutable pointer
+
+#### Output:
+
+* _[`num_bytes`](#num_bytes)_ mutable pointer
+
+---
+
+### [`downstream_tls_ja4()`](#downstream_tls_ja4)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+* **`ja4_out`**: `char8` mutable pointer
+* **`ja4_max_len`**: `usize`
+* **`nwritten_out`**: `usize` mutable pointer
+
+This function has no output.
+
+---
+
+### [`downstream_compliance_region()`](#downstream_compliance_region)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+* **`region_out`**: `char8` mutable pointer
+* **`region_max_len`**: `usize`
+* **`nwritten_out`**: `usize` mutable pointer
+
+This function has no output.
+
+---
+
+### [`fastly_key_is_valid()`](#fastly_key_is_valid)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+
+#### Output:
+
+* _[`is_valid`](#is_valid)_ mutable pointer
+
+---
+
+### [`downstream_bot_analyzed()`](#downstream_bot_analyzed)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+
+#### Output:
+
+* _[`bot_analyzed`](#bot_analyzed)_ mutable pointer
+
+---
+
+### [`downstream_bot_detected()`](#downstream_bot_detected)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+
+#### Output:
+
+* _[`bot_detected`](#bot_detected)_ mutable pointer
+
+---
+
+### [`downstream_bot_name()`](#downstream_bot_name)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+* **`bot_name_out`**: `char8` mutable pointer
+* **`bot_name_max_len`**: `usize`
+* **`nwritten_out`**: `usize` mutable pointer
+
+This function has no output.
+
+---
+
+### [`downstream_bot_category()`](#downstream_bot_category)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+* **`bot_category_out`**: `char8` mutable pointer
+* **`bot_category_max_len`**: `usize`
+* **`nwritten_out`**: `usize` mutable pointer
+
+This function has no output.
+
+---
+
+### [`downstream_bot_category_kind()`](#downstream_bot_category_kind)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+
+#### Output:
+
+* _[`bot_category_kind`](#bot_category_kind)_ mutable pointer
+
+---
+
+### [`downstream_bot_verified()`](#downstream_bot_verified)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+
+#### Output:
+
+* _[`bot_verified`](#bot_verified)_ mutable pointer
+
+---
+
+### [`downstream_resvpnproxy_is_anonymous()`](#downstream_resvpnproxy_is_anonymous)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+
+#### Output:
+
+* _[`resvpnproxy_is_anonymous`](#resvpnproxy_is_anonymous)_ mutable pointer
+
+---
+
+### [`downstream_resvpnproxy_is_anonymous_vpn()`](#downstream_resvpnproxy_is_anonymous_vpn)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+
+#### Output:
+
+* _[`resvpnproxy_is_anonymous_vpn`](#resvpnproxy_is_anonymous_vpn)_ mutable pointer
+
+---
+
+### [`downstream_resvpnproxy_is_hosting_provider()`](#downstream_resvpnproxy_is_hosting_provider)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+
+#### Output:
+
+* _[`resvpnproxy_is_hosting_provider`](#resvpnproxy_is_hosting_provider)_ mutable pointer
+
+---
+
+### [`downstream_resvpnproxy_is_proxy_over_vpn()`](#downstream_resvpnproxy_is_proxy_over_vpn)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+
+#### Output:
+
+* _[`resvpnproxy_is_proxy_over_vpn`](#resvpnproxy_is_proxy_over_vpn)_ mutable pointer
+
+---
+
+### [`downstream_resvpnproxy_is_public_proxy()`](#downstream_resvpnproxy_is_public_proxy)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+
+#### Output:
+
+* _[`resvpnproxy_is_public_proxy`](#resvpnproxy_is_public_proxy)_ mutable pointer
+
+---
+
+### [`downstream_resvpnproxy_is_relay_proxy()`](#downstream_resvpnproxy_is_relay_proxy)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+
+#### Output:
+
+* _[`resvpnproxy_is_relay_proxy`](#resvpnproxy_is_relay_proxy)_ mutable pointer
+
+---
+
+### [`downstream_resvpnproxy_is_residential_proxy()`](#downstream_resvpnproxy_is_residential_proxy)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+
+#### Output:
+
+* _[`resvpnproxy_is_residential_proxy`](#resvpnproxy_is_residential_proxy)_ mutable pointer
+
+---
+
+### [`downstream_resvpnproxy_is_smart_dns_proxy()`](#downstream_resvpnproxy_is_smart_dns_proxy)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+
+#### Output:
+
+* _[`resvpnproxy_is_smart_dns_proxy`](#resvpnproxy_is_smart_dns_proxy)_ mutable pointer
+
+---
+
+### [`downstream_resvpnproxy_is_tor_exit_node()`](#downstream_resvpnproxy_is_tor_exit_node)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+
+#### Output:
+
+* _[`resvpnproxy_is_tor_exit_node`](#resvpnproxy_is_tor_exit_node)_ mutable pointer
+
+---
+
+### [`downstream_resvpnproxy_is_vpn_datacenter()`](#downstream_resvpnproxy_is_vpn_datacenter)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+
+#### Output:
+
+* _[`resvpnproxy_is_vpn_datacenter`](#resvpnproxy_is_vpn_datacenter)_ mutable pointer
+
+---
+
+### [`downstream_resvpnproxy_vpn_service_name()`](#downstream_resvpnproxy_vpn_service_name)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`req`**: _[`request_handle`](#request_handle)_
+* **`vpn_service_name_out`**: `char8` mutable pointer
+* **`vpn_service_name_max_len`**: `usize`
+* **`nwritten_out`**: `usize` mutable pointer
+
+This function has no output.
 
 ---
 

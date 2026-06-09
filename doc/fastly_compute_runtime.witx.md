@@ -1,5 +1,5 @@
 
-# Module: fastly_kv
+# Module: fastly_compute_runtime
 
 ## Table of contents
 
@@ -9,7 +9,7 @@
 
 ### Functions list:
 
-[**[All](#functions)**] - [[`open()`](#open)] - [[`lookup()`](#lookup)] - [[`insert()`](#insert)]
+[**[All](#functions)**] - [[`get_vcpu_ms()`](#get_vcpu_ms)] - [[`get_heap_mib()`](#get_heap_mib)]
 
 ## Types
 
@@ -972,45 +972,33 @@ Enumeration with tag type: `u32`, and the following members:
 
 ## Functions
 
-### [`open()`](#open)
+### [`get_vcpu_ms()`](#get_vcpu_ms)
 Returned error type: _[`fastly_status`](#fastly_status)_
 
-#### Input:
-
-* **`name`**: `string`
 
 #### Output:
 
-* _[`kv_store_handle`](#kv_store_handle)_ mutable pointer
+* _[`vcpu_ms`](#vcpu_ms)_ mutable pointer
 
 ---
 
-### [`lookup()`](#lookup)
+### [`get_heap_mib()`](#get_heap_mib)
 Returned error type: _[`fastly_status`](#fastly_status)_
 
-#### Input:
-
-* **`store`**: _[`kv_store_handle`](#kv_store_handle)_
-* **`key`**: `u8` mutable slice
-* **`opt_body_handle_out`**: _[`body_handle`](#body_handle)_ mutable pointer
-
-This function has no output.
-
----
-
-### [`insert()`](#insert)
-Returned error type: _[`fastly_status`](#fastly_status)_
-
-#### Input:
-
-* **`store`**: _[`kv_store_handle`](#kv_store_handle)_
-* **`key`**: `u8` mutable slice
-* **`body_handle`**: _[`body_handle`](#body_handle)_
-* **`max_age`**: `u32`
 
 #### Output:
 
-* _[`inserted`](#inserted)_ mutable pointer
+* _[`memory_mib`](#memory_mib)_ mutable pointer
+
+> Get a snapshot of the current dynamic memory usage, rounded up to the nearest mebibyte (2^20).
+> 
+> This includes usage from the Wasm linear memory (heap) and usage from host allocations
+> made on behalf of this sandbox, e.g. buffered bodies of HTTP responses.
+> The returned value is just a snapshot- it can change without any explicit action
+> by the sandbox (for instance, additional response data coming in from an HTTP response.)
+> It can also change over time / across runs, as the Compute platform's memory usage
+> changes. Consider the returned value with these uncertainties in mind.
+
 
 ---
 

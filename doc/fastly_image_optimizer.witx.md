@@ -1,5 +1,5 @@
 
-# Module: fastly_kv
+# Module: fastly_image_optimizer
 
 ## Table of contents
 
@@ -9,7 +9,7 @@
 
 ### Functions list:
 
-[**[All](#functions)**] - [[`open()`](#open)] - [[`lookup()`](#lookup)] - [[`insert()`](#insert)]
+[**[All](#functions)**] - [[`transform_image_optimizer_request()`](#transform_image_optimizer_request)]
 
 ## Types
 
@@ -972,45 +972,22 @@ Enumeration with tag type: `u32`, and the following members:
 
 ## Functions
 
-### [`open()`](#open)
+### [`transform_image_optimizer_request()`](#transform_image_optimizer_request)
 Returned error type: _[`fastly_status`](#fastly_status)_
 
 #### Input:
 
-* **`name`**: `string`
+* **`origin_image_request`**: _[`request_handle`](#request_handle)_
+* **`origin_image_request_body`**: _[`body_handle`](#body_handle)_
+* **`origin_image_request_backend`**: `string`
+* **`io_transform_config_mask`**: _[`image_optimizer_transform_config_options`](#image_optimizer_transform_config_options)_
+* **`io_transform_configuration`**: _[`image_optimizer_transform_config`](#image_optimizer_transform_config)_ mutable pointer
+* **`io_error_detail`**: _[`image_optimizer_error_detail`](#image_optimizer_error_detail)_ mutable pointer
 
 #### Output:
 
-* _[`kv_store_handle`](#kv_store_handle)_ mutable pointer
-
----
-
-### [`lookup()`](#lookup)
-Returned error type: _[`fastly_status`](#fastly_status)_
-
-#### Input:
-
-* **`store`**: _[`kv_store_handle`](#kv_store_handle)_
-* **`key`**: `u8` mutable slice
-* **`opt_body_handle_out`**: _[`body_handle`](#body_handle)_ mutable pointer
-
-This function has no output.
-
----
-
-### [`insert()`](#insert)
-Returned error type: _[`fastly_status`](#fastly_status)_
-
-#### Input:
-
-* **`store`**: _[`kv_store_handle`](#kv_store_handle)_
-* **`key`**: `u8` mutable slice
-* **`body_handle`**: _[`body_handle`](#body_handle)_
-* **`max_age`**: `u32`
-
-#### Output:
-
-* _[`inserted`](#inserted)_ mutable pointer
+* _[`response_handle`](#response_handle)_ mutable pointer
+* _[`body_handle`](#body_handle)_ mutable pointer
 
 ---
 

@@ -1,5 +1,5 @@
 
-# Module: fastly_kv
+# Module: fastly_kv_store
 
 ## Table of contents
 
@@ -9,7 +9,7 @@
 
 ### Functions list:
 
-[**[All](#functions)**] - [[`open()`](#open)] - [[`lookup()`](#lookup)] - [[`insert()`](#insert)]
+[**[All](#functions)**] - [[`open()`](#open)] - [[`lookup()`](#lookup)] - [[`lookup_wait()`](#lookup_wait)] - [[`lookup_wait_v2()`](#lookup_wait_v2)] - [[`insert()`](#insert)] - [[`insert_wait()`](#insert_wait)] - [[`delete()`](#delete)] - [[`delete_wait()`](#delete_wait)] - [[`list()`](#list)] - [[`list_wait()`](#list_wait)]
 
 ## Types
 
@@ -991,8 +991,44 @@ Returned error type: _[`fastly_status`](#fastly_status)_
 #### Input:
 
 * **`store`**: _[`kv_store_handle`](#kv_store_handle)_
-* **`key`**: `u8` mutable slice
-* **`opt_body_handle_out`**: _[`body_handle`](#body_handle)_ mutable pointer
+* **`key`**: `string`
+* **`lookup_config_mask`**: _[`kv_lookup_config_options`](#kv_lookup_config_options)_
+* **`lookup_configuration`**: _[`kv_lookup_config`](#kv_lookup_config)_ mutable pointer
+* **`handle_out`**: _[`kv_store_lookup_handle`](#kv_store_lookup_handle)_ mutable pointer
+
+This function has no output.
+
+---
+
+### [`lookup_wait()`](#lookup_wait)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`handle`**: _[`kv_store_lookup_handle`](#kv_store_lookup_handle)_
+* **`body_handle_out`**: _[`body_handle`](#body_handle)_ mutable pointer
+* **`metadata_buf`**: `char8` mutable pointer
+* **`metadata_buf_len`**: `usize`
+* **`nwritten_out`**: `usize` mutable pointer
+* **`generation_out`**: `u32` mutable pointer
+* **`kv_error_out`**: _[`kv_error`](#kv_error)_ mutable pointer
+
+This function has no output.
+
+---
+
+### [`lookup_wait_v2()`](#lookup_wait_v2)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`handle`**: _[`kv_store_lookup_handle`](#kv_store_lookup_handle)_
+* **`body_handle_out`**: _[`body_handle`](#body_handle)_ mutable pointer
+* **`metadata_buf`**: `char8` mutable pointer
+* **`metadata_buf_len`**: `usize`
+* **`nwritten_out`**: `usize` mutable pointer
+* **`generation_out`**: `u64` mutable pointer
+* **`kv_error_out`**: _[`kv_error`](#kv_error)_ mutable pointer
 
 This function has no output.
 
@@ -1004,13 +1040,79 @@ Returned error type: _[`fastly_status`](#fastly_status)_
 #### Input:
 
 * **`store`**: _[`kv_store_handle`](#kv_store_handle)_
-* **`key`**: `u8` mutable slice
+* **`key`**: `string`
 * **`body_handle`**: _[`body_handle`](#body_handle)_
-* **`max_age`**: `u32`
+* **`insert_config_mask`**: _[`kv_insert_config_options`](#kv_insert_config_options)_
+* **`insert_configuration`**: _[`kv_insert_config`](#kv_insert_config)_ mutable pointer
+* **`handle_out`**: _[`kv_store_insert_handle`](#kv_store_insert_handle)_ mutable pointer
 
-#### Output:
+This function has no output.
 
-* _[`inserted`](#inserted)_ mutable pointer
+---
+
+### [`insert_wait()`](#insert_wait)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`handle`**: _[`kv_store_insert_handle`](#kv_store_insert_handle)_
+* **`kv_error_out`**: _[`kv_error`](#kv_error)_ mutable pointer
+
+This function has no output.
+
+---
+
+### [`delete()`](#delete)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`store`**: _[`kv_store_handle`](#kv_store_handle)_
+* **`key`**: `string`
+* **`delete_config_mask`**: _[`kv_delete_config_options`](#kv_delete_config_options)_
+* **`delete_configuration`**: _[`kv_delete_config`](#kv_delete_config)_ mutable pointer
+* **`handle_out`**: _[`kv_store_delete_handle`](#kv_store_delete_handle)_ mutable pointer
+
+This function has no output.
+
+---
+
+### [`delete_wait()`](#delete_wait)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`handle`**: _[`kv_store_delete_handle`](#kv_store_delete_handle)_
+* **`kv_error_out`**: _[`kv_error`](#kv_error)_ mutable pointer
+
+This function has no output.
+
+---
+
+### [`list()`](#list)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`store`**: _[`kv_store_handle`](#kv_store_handle)_
+* **`list_config_mask`**: _[`kv_list_config_options`](#kv_list_config_options)_
+* **`list_configuration`**: _[`kv_list_config`](#kv_list_config)_ mutable pointer
+* **`handle_out`**: _[`kv_store_list_handle`](#kv_store_list_handle)_ mutable pointer
+
+This function has no output.
+
+---
+
+### [`list_wait()`](#list_wait)
+Returned error type: _[`fastly_status`](#fastly_status)_
+
+#### Input:
+
+* **`handle`**: _[`kv_store_list_handle`](#kv_store_list_handle)_
+* **`body_handle_out`**: _[`body_handle`](#body_handle)_ mutable pointer
+* **`kv_error_out`**: _[`kv_error`](#kv_error)_ mutable pointer
+
+This function has no output.
 
 ---
 

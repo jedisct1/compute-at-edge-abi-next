@@ -1,15 +1,15 @@
 
-# Module: fastly_kv
+# Module: fastly_shielding
 
 ## Table of contents
 
 ### Types list:
 
-[**[All](#types)**] - [_[`fastly_status`](#fastly_status)_] - [_[`http_version`](#http_version)_] - [_[`http_status`](#http_status)_] - [_[`body_write_end`](#body_write_end)_] - [_[`body_handle`](#body_handle)_] - [_[`request_handle`](#request_handle)_] - [_[`response_handle`](#response_handle)_] - [_[`pending_request_handle`](#pending_request_handle)_] - [_[`endpoint_handle`](#endpoint_handle)_] - [_[`dictionary_handle`](#dictionary_handle)_] - [_[`object_store_handle`](#object_store_handle)_] - [_[`pending_kv_lookup_handle`](#pending_kv_lookup_handle)_] - [_[`pending_kv_insert_handle`](#pending_kv_insert_handle)_] - [_[`pending_kv_delete_handle`](#pending_kv_delete_handle)_] - [_[`pending_kv_list_handle`](#pending_kv_list_handle)_] - [_[`kv_store_handle`](#kv_store_handle)_] - [_[`kv_store_lookup_handle`](#kv_store_lookup_handle)_] - [_[`kv_store_insert_handle`](#kv_store_insert_handle)_] - [_[`kv_store_delete_handle`](#kv_store_delete_handle)_] - [_[`kv_store_list_handle`](#kv_store_list_handle)_] - [_[`secret_store_handle`](#secret_store_handle)_] - [_[`secret_handle`](#secret_handle)_] - [_[`acl_handle`](#acl_handle)_] - [_[`request_promise_handle`](#request_promise_handle)_] - [_[`async_item_handle`](#async_item_handle)_] - [_[`multi_value_cursor`](#multi_value_cursor)_] - [_[`multi_value_cursor_result`](#multi_value_cursor_result)_] - [_[`cache_override_tag`](#cache_override_tag)_] - [_[`num_bytes`](#num_bytes)_] - [_[`header_count`](#header_count)_] - [_[`is_done`](#is_done)_] - [_[`done_idx`](#done_idx)_] - [_[`is_valid`](#is_valid)_] - [_[`inserted`](#inserted)_] - [_[`ready_idx`](#ready_idx)_] - [_[`ddos_detected`](#ddos_detected)_] - [_[`port`](#port)_] - [_[`timeout_ms`](#timeout_ms)_] - [_[`timeout_secs`](#timeout_secs)_] - [_[`probe_count`](#probe_count)_] - [_[`backend_exists`](#backend_exists)_] - [_[`is_dynamic`](#is_dynamic)_] - [_[`is_keepalive`](#is_keepalive)_] - [_[`is_ssl`](#is_ssl)_] - [_[`backend_health`](#backend_health)_] - [_[`bot_analyzed`](#bot_analyzed)_] - [_[`bot_detected`](#bot_detected)_] - [_[`bot_category_kind`](#bot_category_kind)_] - [_[`bot_verified`](#bot_verified)_] - [_[`resvpnproxy_is_anonymous`](#resvpnproxy_is_anonymous)_] - [_[`resvpnproxy_is_anonymous_vpn`](#resvpnproxy_is_anonymous_vpn)_] - [_[`resvpnproxy_is_hosting_provider`](#resvpnproxy_is_hosting_provider)_] - [_[`resvpnproxy_is_proxy_over_vpn`](#resvpnproxy_is_proxy_over_vpn)_] - [_[`resvpnproxy_is_public_proxy`](#resvpnproxy_is_public_proxy)_] - [_[`resvpnproxy_is_relay_proxy`](#resvpnproxy_is_relay_proxy)_] - [_[`resvpnproxy_is_residential_proxy`](#resvpnproxy_is_residential_proxy)_] - [_[`resvpnproxy_is_smart_dns_proxy`](#resvpnproxy_is_smart_dns_proxy)_] - [_[`resvpnproxy_is_tor_exit_node`](#resvpnproxy_is_tor_exit_node)_] - [_[`resvpnproxy_is_vpn_datacenter`](#resvpnproxy_is_vpn_datacenter)_] - [_[`content_encodings`](#content_encodings)_] - [_[`framing_headers_mode`](#framing_headers_mode)_] - [_[`http_keepalive_mode`](#http_keepalive_mode)_] - [_[`tls_version`](#tls_version)_] - [_[`kv_lookup_config_options`](#kv_lookup_config_options)_] - [_[`kv_lookup_config`](#kv_lookup_config)_] - [_[`kv_delete_config_options`](#kv_delete_config_options)_] - [_[`kv_delete_config`](#kv_delete_config)_] - [_[`kv_insert_config_options`](#kv_insert_config_options)_] - [_[`kv_insert_mode`](#kv_insert_mode)_] - [_[`kv_insert_config`](#kv_insert_config)_] - [_[`kv_list_config_options`](#kv_list_config_options)_] - [_[`kv_list_mode`](#kv_list_mode)_] - [_[`kv_list_config`](#kv_list_config)_] - [_[`kv_error`](#kv_error)_] - [_[`backend_config_options`](#backend_config_options)_] - [_[`dynamic_backend_config`](#dynamic_backend_config)_] - [_[`client_cert_verify_result`](#client_cert_verify_result)_] - [_[`purge_options_mask`](#purge_options_mask)_] - [_[`purge_options`](#purge_options)_] - [_[`send_error_detail_tag`](#send_error_detail_tag)_] - [_[`send_error_detail_mask`](#send_error_detail_mask)_] - [_[`send_error_detail`](#send_error_detail)_] - [_[`blocked`](#blocked)_] - [_[`rate`](#rate)_] - [_[`count`](#count)_] - [_[`has`](#has)_] - [_[`body_length`](#body_length)_] - [_[`vcpu_ms`](#vcpu_ms)_] - [_[`memory_mib`](#memory_mib)_] - [_[`inspect_info_mask`](#inspect_info_mask)_] - [_[`inspect_info`](#inspect_info)_] - [_[`acl_error`](#acl_error)_] - [_[`image_optimizer_transform_config_options`](#image_optimizer_transform_config_options)_] - [_[`image_optimizer_transform_config`](#image_optimizer_transform_config)_] - [_[`image_optimizer_error_tag`](#image_optimizer_error_tag)_] - [_[`image_optimizer_error_detail`](#image_optimizer_error_detail)_] - [_[`next_request_options_mask`](#next_request_options_mask)_] - [_[`next_request_options`](#next_request_options)_] - [_[`pending_response_kind`](#pending_response_kind)_]
+[**[All](#types)**] - [_[`fastly_status`](#fastly_status)_] - [_[`http_version`](#http_version)_] - [_[`http_status`](#http_status)_] - [_[`body_write_end`](#body_write_end)_] - [_[`body_handle`](#body_handle)_] - [_[`request_handle`](#request_handle)_] - [_[`response_handle`](#response_handle)_] - [_[`pending_request_handle`](#pending_request_handle)_] - [_[`endpoint_handle`](#endpoint_handle)_] - [_[`dictionary_handle`](#dictionary_handle)_] - [_[`object_store_handle`](#object_store_handle)_] - [_[`pending_kv_lookup_handle`](#pending_kv_lookup_handle)_] - [_[`pending_kv_insert_handle`](#pending_kv_insert_handle)_] - [_[`pending_kv_delete_handle`](#pending_kv_delete_handle)_] - [_[`pending_kv_list_handle`](#pending_kv_list_handle)_] - [_[`kv_store_handle`](#kv_store_handle)_] - [_[`kv_store_lookup_handle`](#kv_store_lookup_handle)_] - [_[`kv_store_insert_handle`](#kv_store_insert_handle)_] - [_[`kv_store_delete_handle`](#kv_store_delete_handle)_] - [_[`kv_store_list_handle`](#kv_store_list_handle)_] - [_[`secret_store_handle`](#secret_store_handle)_] - [_[`secret_handle`](#secret_handle)_] - [_[`acl_handle`](#acl_handle)_] - [_[`request_promise_handle`](#request_promise_handle)_] - [_[`async_item_handle`](#async_item_handle)_] - [_[`multi_value_cursor`](#multi_value_cursor)_] - [_[`multi_value_cursor_result`](#multi_value_cursor_result)_] - [_[`cache_override_tag`](#cache_override_tag)_] - [_[`num_bytes`](#num_bytes)_] - [_[`header_count`](#header_count)_] - [_[`is_done`](#is_done)_] - [_[`done_idx`](#done_idx)_] - [_[`is_valid`](#is_valid)_] - [_[`inserted`](#inserted)_] - [_[`ready_idx`](#ready_idx)_] - [_[`ddos_detected`](#ddos_detected)_] - [_[`port`](#port)_] - [_[`timeout_ms`](#timeout_ms)_] - [_[`timeout_secs`](#timeout_secs)_] - [_[`probe_count`](#probe_count)_] - [_[`backend_exists`](#backend_exists)_] - [_[`is_dynamic`](#is_dynamic)_] - [_[`is_keepalive`](#is_keepalive)_] - [_[`is_ssl`](#is_ssl)_] - [_[`backend_health`](#backend_health)_] - [_[`bot_analyzed`](#bot_analyzed)_] - [_[`bot_detected`](#bot_detected)_] - [_[`bot_category_kind`](#bot_category_kind)_] - [_[`bot_verified`](#bot_verified)_] - [_[`resvpnproxy_is_anonymous`](#resvpnproxy_is_anonymous)_] - [_[`resvpnproxy_is_anonymous_vpn`](#resvpnproxy_is_anonymous_vpn)_] - [_[`resvpnproxy_is_hosting_provider`](#resvpnproxy_is_hosting_provider)_] - [_[`resvpnproxy_is_proxy_over_vpn`](#resvpnproxy_is_proxy_over_vpn)_] - [_[`resvpnproxy_is_public_proxy`](#resvpnproxy_is_public_proxy)_] - [_[`resvpnproxy_is_relay_proxy`](#resvpnproxy_is_relay_proxy)_] - [_[`resvpnproxy_is_residential_proxy`](#resvpnproxy_is_residential_proxy)_] - [_[`resvpnproxy_is_smart_dns_proxy`](#resvpnproxy_is_smart_dns_proxy)_] - [_[`resvpnproxy_is_tor_exit_node`](#resvpnproxy_is_tor_exit_node)_] - [_[`resvpnproxy_is_vpn_datacenter`](#resvpnproxy_is_vpn_datacenter)_] - [_[`content_encodings`](#content_encodings)_] - [_[`framing_headers_mode`](#framing_headers_mode)_] - [_[`http_keepalive_mode`](#http_keepalive_mode)_] - [_[`tls_version`](#tls_version)_] - [_[`kv_lookup_config_options`](#kv_lookup_config_options)_] - [_[`kv_lookup_config`](#kv_lookup_config)_] - [_[`kv_delete_config_options`](#kv_delete_config_options)_] - [_[`kv_delete_config`](#kv_delete_config)_] - [_[`kv_insert_config_options`](#kv_insert_config_options)_] - [_[`kv_insert_mode`](#kv_insert_mode)_] - [_[`kv_insert_config`](#kv_insert_config)_] - [_[`kv_list_config_options`](#kv_list_config_options)_] - [_[`kv_list_mode`](#kv_list_mode)_] - [_[`kv_list_config`](#kv_list_config)_] - [_[`kv_error`](#kv_error)_] - [_[`backend_config_options`](#backend_config_options)_] - [_[`dynamic_backend_config`](#dynamic_backend_config)_] - [_[`client_cert_verify_result`](#client_cert_verify_result)_] - [_[`purge_options_mask`](#purge_options_mask)_] - [_[`purge_options`](#purge_options)_] - [_[`send_error_detail_tag`](#send_error_detail_tag)_] - [_[`send_error_detail_mask`](#send_error_detail_mask)_] - [_[`send_error_detail`](#send_error_detail)_] - [_[`blocked`](#blocked)_] - [_[`rate`](#rate)_] - [_[`count`](#count)_] - [_[`has`](#has)_] - [_[`body_length`](#body_length)_] - [_[`vcpu_ms`](#vcpu_ms)_] - [_[`memory_mib`](#memory_mib)_] - [_[`inspect_info_mask`](#inspect_info_mask)_] - [_[`inspect_info`](#inspect_info)_] - [_[`acl_error`](#acl_error)_] - [_[`image_optimizer_transform_config_options`](#image_optimizer_transform_config_options)_] - [_[`image_optimizer_transform_config`](#image_optimizer_transform_config)_] - [_[`image_optimizer_error_tag`](#image_optimizer_error_tag)_] - [_[`image_optimizer_error_detail`](#image_optimizer_error_detail)_] - [_[`next_request_options_mask`](#next_request_options_mask)_] - [_[`next_request_options`](#next_request_options)_] - [_[`pending_response_kind`](#pending_response_kind)_] - [_[`shield_backend_options`](#shield_backend_options)_] - [_[`shield_backend_config`](#shield_backend_config)_]
 
 ### Functions list:
 
-[**[All](#functions)**] - [[`open()`](#open)] - [[`lookup()`](#lookup)] - [[`insert()`](#insert)]
+[**[All](#functions)**] - [[`shield_info()`](#shield_info)] - [[`backend_for_shield()`](#backend_for_shield)]
 
 ## Types
 
@@ -970,47 +970,60 @@ Enumeration with tag type: `u32`, and the following members:
 
 ---
 
+### _[`shield_backend_options`](#shield_backend_options)_
+
+Set of constants, of type `u32`
+
+Predefined constants for _[`shield_backend_options`](#shield_backend_options)_:
+
+* **`reserved`** = `0x1`
+* **`use_cache_key`** = `0x2`
+* **`first_byte_timeout`** = `0x4`
+* **`between_bytes_timeout`** = `0x8`
+
+---
+
+### _[`shield_backend_config`](#shield_backend_config)_
+Structure, with the following members:
+
+* **`cache_key`**: `char8` mutable pointer
+* **`cache_key_len`**: `u32`
+* **`first_byte_timeout_ms`**: `u32`
+* **`between_bytes_timeout_ms`**: `u32`
+
+---
+
 ## Functions
 
-### [`open()`](#open)
+### [`shield_info()`](#shield_info)
 Returned error type: _[`fastly_status`](#fastly_status)_
 
 #### Input:
 
 * **`name`**: `string`
+* **`info_block`**: `char8` mutable pointer
+* **`info_block_max_len`**: `usize`
 
 #### Output:
 
-* _[`kv_store_handle`](#kv_store_handle)_ mutable pointer
+* _[`num_bytes`](#num_bytes)_ mutable pointer
 
 ---
 
-### [`lookup()`](#lookup)
+### [`backend_for_shield()`](#backend_for_shield)
 Returned error type: _[`fastly_status`](#fastly_status)_
 
 #### Input:
 
-* **`store`**: _[`kv_store_handle`](#kv_store_handle)_
-* **`key`**: `u8` mutable slice
-* **`opt_body_handle_out`**: _[`body_handle`](#body_handle)_ mutable pointer
-
-This function has no output.
-
----
-
-### [`insert()`](#insert)
-Returned error type: _[`fastly_status`](#fastly_status)_
-
-#### Input:
-
-* **`store`**: _[`kv_store_handle`](#kv_store_handle)_
-* **`key`**: `u8` mutable slice
-* **`body_handle`**: _[`body_handle`](#body_handle)_
-* **`max_age`**: `u32`
+* **`shield_name`**: `string`
+* **`backend_config_mask`**: _[`shield_backend_options`](#shield_backend_options)_
+* **`backend_configuration`**: _[`shield_backend_config`](#shield_backend_config)_ mutable pointer
+* **`backend_name_out`**: `char8` mutable pointer
+* **`backend_name_max_len`**: `usize`
 
 #### Output:
 
-* _[`inserted`](#inserted)_ mutable pointer
+* _[`num_bytes`](#num_bytes)_ mutable pointer
 
 ---
 

@@ -5,7 +5,7 @@
 
 ### Types list:
 
-[**[All](#types)**] - [_[`fastly_status`](#fastly_status)_] - [_[`http_version`](#http_version)_] - [_[`http_status`](#http_status)_] - [_[`body_write_end`](#body_write_end)_] - [_[`body_handle`](#body_handle)_] - [_[`request_handle`](#request_handle)_] - [_[`response_handle`](#response_handle)_] - [_[`pending_request_handle`](#pending_request_handle)_] - [_[`endpoint_handle`](#endpoint_handle)_] - [_[`dictionary_handle`](#dictionary_handle)_] - [_[`object_store_handle`](#object_store_handle)_] - [_[`pending_kv_lookup_handle`](#pending_kv_lookup_handle)_] - [_[`pending_kv_insert_handle`](#pending_kv_insert_handle)_] - [_[`pending_kv_delete_handle`](#pending_kv_delete_handle)_] - [_[`pending_kv_list_handle`](#pending_kv_list_handle)_] - [_[`kv_store_handle`](#kv_store_handle)_] - [_[`kv_store_lookup_handle`](#kv_store_lookup_handle)_] - [_[`kv_store_insert_handle`](#kv_store_insert_handle)_] - [_[`kv_store_delete_handle`](#kv_store_delete_handle)_] - [_[`kv_store_list_handle`](#kv_store_list_handle)_] - [_[`secret_store_handle`](#secret_store_handle)_] - [_[`secret_handle`](#secret_handle)_] - [_[`acl_handle`](#acl_handle)_] - [_[`request_promise_handle`](#request_promise_handle)_] - [_[`async_item_handle`](#async_item_handle)_] - [_[`multi_value_cursor`](#multi_value_cursor)_] - [_[`multi_value_cursor_result`](#multi_value_cursor_result)_] - [_[`cache_override_tag`](#cache_override_tag)_] - [_[`num_bytes`](#num_bytes)_] - [_[`header_count`](#header_count)_] - [_[`is_done`](#is_done)_] - [_[`done_idx`](#done_idx)_] - [_[`is_valid`](#is_valid)_] - [_[`inserted`](#inserted)_] - [_[`ready_idx`](#ready_idx)_] - [_[`ddos_detected`](#ddos_detected)_] - [_[`port`](#port)_] - [_[`timeout_ms`](#timeout_ms)_] - [_[`timeout_secs`](#timeout_secs)_] - [_[`probe_count`](#probe_count)_] - [_[`backend_exists`](#backend_exists)_] - [_[`is_dynamic`](#is_dynamic)_] - [_[`is_keepalive`](#is_keepalive)_] - [_[`is_ssl`](#is_ssl)_] - [_[`backend_health`](#backend_health)_] - [_[`content_encodings`](#content_encodings)_] - [_[`framing_headers_mode`](#framing_headers_mode)_] - [_[`http_keepalive_mode`](#http_keepalive_mode)_] - [_[`tls_version`](#tls_version)_] - [_[`kv_lookup_config_options`](#kv_lookup_config_options)_] - [_[`kv_lookup_config`](#kv_lookup_config)_] - [_[`kv_delete_config_options`](#kv_delete_config_options)_] - [_[`kv_delete_config`](#kv_delete_config)_] - [_[`kv_insert_config_options`](#kv_insert_config_options)_] - [_[`kv_insert_mode`](#kv_insert_mode)_] - [_[`kv_insert_config`](#kv_insert_config)_] - [_[`kv_list_config_options`](#kv_list_config_options)_] - [_[`kv_list_mode`](#kv_list_mode)_] - [_[`kv_list_config`](#kv_list_config)_] - [_[`kv_error`](#kv_error)_] - [_[`backend_config_options`](#backend_config_options)_] - [_[`dynamic_backend_config`](#dynamic_backend_config)_] - [_[`client_cert_verify_result`](#client_cert_verify_result)_] - [_[`purge_options_mask`](#purge_options_mask)_] - [_[`purge_options`](#purge_options)_] - [_[`send_error_detail_tag`](#send_error_detail_tag)_] - [_[`send_error_detail_mask`](#send_error_detail_mask)_] - [_[`send_error_detail`](#send_error_detail)_] - [_[`blocked`](#blocked)_] - [_[`rate`](#rate)_] - [_[`count`](#count)_] - [_[`has`](#has)_] - [_[`body_length`](#body_length)_] - [_[`vcpu_ms`](#vcpu_ms)_] - [_[`memory_mib`](#memory_mib)_] - [_[`inspect_info_mask`](#inspect_info_mask)_] - [_[`inspect_info`](#inspect_info)_] - [_[`acl_error`](#acl_error)_] - [_[`image_optimizer_transform_config_options`](#image_optimizer_transform_config_options)_] - [_[`image_optimizer_transform_config`](#image_optimizer_transform_config)_] - [_[`image_optimizer_error_tag`](#image_optimizer_error_tag)_] - [_[`image_optimizer_error_detail`](#image_optimizer_error_detail)_] - [_[`next_request_options_mask`](#next_request_options_mask)_] - [_[`next_request_options`](#next_request_options)_]
+[**[All](#types)**] - [_[`fastly_status`](#fastly_status)_] - [_[`http_version`](#http_version)_] - [_[`http_status`](#http_status)_] - [_[`body_write_end`](#body_write_end)_] - [_[`body_handle`](#body_handle)_] - [_[`request_handle`](#request_handle)_] - [_[`response_handle`](#response_handle)_] - [_[`pending_request_handle`](#pending_request_handle)_] - [_[`endpoint_handle`](#endpoint_handle)_] - [_[`dictionary_handle`](#dictionary_handle)_] - [_[`object_store_handle`](#object_store_handle)_] - [_[`pending_kv_lookup_handle`](#pending_kv_lookup_handle)_] - [_[`pending_kv_insert_handle`](#pending_kv_insert_handle)_] - [_[`pending_kv_delete_handle`](#pending_kv_delete_handle)_] - [_[`pending_kv_list_handle`](#pending_kv_list_handle)_] - [_[`kv_store_handle`](#kv_store_handle)_] - [_[`kv_store_lookup_handle`](#kv_store_lookup_handle)_] - [_[`kv_store_insert_handle`](#kv_store_insert_handle)_] - [_[`kv_store_delete_handle`](#kv_store_delete_handle)_] - [_[`kv_store_list_handle`](#kv_store_list_handle)_] - [_[`secret_store_handle`](#secret_store_handle)_] - [_[`secret_handle`](#secret_handle)_] - [_[`acl_handle`](#acl_handle)_] - [_[`request_promise_handle`](#request_promise_handle)_] - [_[`async_item_handle`](#async_item_handle)_] - [_[`multi_value_cursor`](#multi_value_cursor)_] - [_[`multi_value_cursor_result`](#multi_value_cursor_result)_] - [_[`cache_override_tag`](#cache_override_tag)_] - [_[`num_bytes`](#num_bytes)_] - [_[`header_count`](#header_count)_] - [_[`is_done`](#is_done)_] - [_[`done_idx`](#done_idx)_] - [_[`is_valid`](#is_valid)_] - [_[`inserted`](#inserted)_] - [_[`ready_idx`](#ready_idx)_] - [_[`ddos_detected`](#ddos_detected)_] - [_[`port`](#port)_] - [_[`timeout_ms`](#timeout_ms)_] - [_[`timeout_secs`](#timeout_secs)_] - [_[`probe_count`](#probe_count)_] - [_[`backend_exists`](#backend_exists)_] - [_[`is_dynamic`](#is_dynamic)_] - [_[`is_keepalive`](#is_keepalive)_] - [_[`is_ssl`](#is_ssl)_] - [_[`backend_health`](#backend_health)_] - [_[`bot_analyzed`](#bot_analyzed)_] - [_[`bot_detected`](#bot_detected)_] - [_[`bot_category_kind`](#bot_category_kind)_] - [_[`bot_verified`](#bot_verified)_] - [_[`resvpnproxy_is_anonymous`](#resvpnproxy_is_anonymous)_] - [_[`resvpnproxy_is_anonymous_vpn`](#resvpnproxy_is_anonymous_vpn)_] - [_[`resvpnproxy_is_hosting_provider`](#resvpnproxy_is_hosting_provider)_] - [_[`resvpnproxy_is_proxy_over_vpn`](#resvpnproxy_is_proxy_over_vpn)_] - [_[`resvpnproxy_is_public_proxy`](#resvpnproxy_is_public_proxy)_] - [_[`resvpnproxy_is_relay_proxy`](#resvpnproxy_is_relay_proxy)_] - [_[`resvpnproxy_is_residential_proxy`](#resvpnproxy_is_residential_proxy)_] - [_[`resvpnproxy_is_smart_dns_proxy`](#resvpnproxy_is_smart_dns_proxy)_] - [_[`resvpnproxy_is_tor_exit_node`](#resvpnproxy_is_tor_exit_node)_] - [_[`resvpnproxy_is_vpn_datacenter`](#resvpnproxy_is_vpn_datacenter)_] - [_[`content_encodings`](#content_encodings)_] - [_[`framing_headers_mode`](#framing_headers_mode)_] - [_[`http_keepalive_mode`](#http_keepalive_mode)_] - [_[`tls_version`](#tls_version)_] - [_[`kv_lookup_config_options`](#kv_lookup_config_options)_] - [_[`kv_lookup_config`](#kv_lookup_config)_] - [_[`kv_delete_config_options`](#kv_delete_config_options)_] - [_[`kv_delete_config`](#kv_delete_config)_] - [_[`kv_insert_config_options`](#kv_insert_config_options)_] - [_[`kv_insert_mode`](#kv_insert_mode)_] - [_[`kv_insert_config`](#kv_insert_config)_] - [_[`kv_list_config_options`](#kv_list_config_options)_] - [_[`kv_list_mode`](#kv_list_mode)_] - [_[`kv_list_config`](#kv_list_config)_] - [_[`kv_error`](#kv_error)_] - [_[`backend_config_options`](#backend_config_options)_] - [_[`dynamic_backend_config`](#dynamic_backend_config)_] - [_[`client_cert_verify_result`](#client_cert_verify_result)_] - [_[`purge_options_mask`](#purge_options_mask)_] - [_[`purge_options`](#purge_options)_] - [_[`send_error_detail_tag`](#send_error_detail_tag)_] - [_[`send_error_detail_mask`](#send_error_detail_mask)_] - [_[`send_error_detail`](#send_error_detail)_] - [_[`blocked`](#blocked)_] - [_[`rate`](#rate)_] - [_[`count`](#count)_] - [_[`has`](#has)_] - [_[`body_length`](#body_length)_] - [_[`vcpu_ms`](#vcpu_ms)_] - [_[`memory_mib`](#memory_mib)_] - [_[`inspect_info_mask`](#inspect_info_mask)_] - [_[`inspect_info`](#inspect_info)_] - [_[`acl_error`](#acl_error)_] - [_[`image_optimizer_transform_config_options`](#image_optimizer_transform_config_options)_] - [_[`image_optimizer_transform_config`](#image_optimizer_transform_config)_] - [_[`image_optimizer_error_tag`](#image_optimizer_error_tag)_] - [_[`image_optimizer_error_detail`](#image_optimizer_error_detail)_] - [_[`next_request_options_mask`](#next_request_options_mask)_] - [_[`next_request_options`](#next_request_options)_] - [_[`pending_response_kind`](#pending_response_kind)_]
 
 ### Functions list:
 
@@ -259,15 +259,15 @@ Alias for `handle`.
 > Can be a `body_handle`, `pending_request_handle`,
 > `cache_handle`, `cache_busy_handle`, `cache_replace_handle` (see cache.witx),
 > `request_promise_handle`, or other handles.
->
+> 
 > Each async item has an associated I/O action:
->
+> 
 > * Pending requests: awaiting the response headers / `Response` object
 > * Normal bodies: reading bytes from the body
 > * Streaming bodies: writing bytes to the body
 > * Cache handles: the caller has been selected to perform a fetch, or there is data ready
 > * Request promise: a new request is ready, or there will be no request provided via this handle
->
+> 
 > For writing bytes, note that there is a large host-side buffer that bytes can eagerly be written
 > into, even before the origin itself consumes that data.
 
@@ -412,6 +412,90 @@ Enumeration with tag type: `u32`, and the following members:
 * **`unknown`**: _[`backend_health`](#backend_health)_
 * **`healthy`**: _[`backend_health`](#backend_health)_
 * **`unhealthy`**: _[`backend_health`](#backend_health)_
+
+---
+
+### _[`bot_analyzed`](#bot_analyzed)_
+Alias for `u32`.
+
+
+---
+
+### _[`bot_detected`](#bot_detected)_
+Alias for `u32`.
+
+
+---
+
+### _[`bot_category_kind`](#bot_category_kind)_
+Alias for `u32`.
+
+
+---
+
+### _[`bot_verified`](#bot_verified)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_anonymous`](#resvpnproxy_is_anonymous)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_anonymous_vpn`](#resvpnproxy_is_anonymous_vpn)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_hosting_provider`](#resvpnproxy_is_hosting_provider)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_proxy_over_vpn`](#resvpnproxy_is_proxy_over_vpn)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_public_proxy`](#resvpnproxy_is_public_proxy)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_relay_proxy`](#resvpnproxy_is_relay_proxy)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_residential_proxy`](#resvpnproxy_is_residential_proxy)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_smart_dns_proxy`](#resvpnproxy_is_smart_dns_proxy)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_tor_exit_node`](#resvpnproxy_is_tor_exit_node)_
+Alias for `u32`.
+
+
+---
+
+### _[`resvpnproxy_is_vpn_datacenter`](#resvpnproxy_is_vpn_datacenter)_
+Alias for `u32`.
+
 
 ---
 
@@ -700,6 +784,7 @@ Enumeration with tag type: `u32`, and the following members:
 * **`internal_error`**: _[`send_error_detail_tag`](#send_error_detail_tag)_
 * **`tls_alert_received`**: _[`send_error_detail_tag`](#send_error_detail_tag)_
 * **`tls_protocol_error`**: _[`send_error_detail_tag`](#send_error_detail_tag)_
+* **`h2_error`**: _[`send_error_detail_tag`](#send_error_detail_tag)_
 
 ---
 
@@ -713,9 +798,10 @@ Predefined constants for _[`send_error_detail_mask`](#send_error_detail_mask)_:
 * **`dns_error_rcode`** = `0x2`
 * **`dns_error_info_code`** = `0x4`
 * **`tls_alert_id`** = `0x8`
+* **`h2_error`** = `0x10`
 
 > Mask representing which fields are understood by the guest, and which have been set by the host.
->
+> 
 > When the guest calls hostcalls with a mask, it should set every bit in the mask that corresponds
 > to a defined flag. This signals the host to write only to fields with a set bit, allowing
 > forward compatibility for existing guest programs even after new fields are added to the struct.
@@ -731,6 +817,8 @@ Structure, with the following members:
 * **`dns_error_rcode`**: `u16`
 * **`dns_error_info_code`**: `u16`
 * **`tls_alert_id`**: `u8`
+* **`h2_error_frame`**: `u8`
+* **`h2_error_code`**: `u32`
 
 ---
 
@@ -866,6 +954,19 @@ Predefined constants for _[`next_request_options_mask`](#next_request_options_ma
 Structure, with the following members:
 
 * **`timeout_ms`**: `u64`
+
+---
+
+### _[`pending_response_kind`](#pending_response_kind)_
+
+Enumeration with tag type: `u32`, and the following members:
+
+* **`any`**: _[`pending_response_kind`](#pending_response_kind)_
+* **`response`**: _[`pending_response_kind`](#pending_response_kind)_
+* **`error`**: _[`pending_response_kind`](#pending_response_kind)_
+
+> Kinds of responses to pending request handles.
+
 
 ---
 

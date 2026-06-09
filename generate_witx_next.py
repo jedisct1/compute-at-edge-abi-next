@@ -225,10 +225,10 @@ def transform_cache_module(types_content, module_content):
     # Dedent to remove any existing indentation
     combined = textwrap.dedent(combined).strip()
 
-    # Transform the cache_handle specifically
+    # Transform all cache handle definitions to use the resource
     combined = re.sub(
-        r'\(typename \$cache_handle \(handle\)\)',
-        r'(typename $cache_handle (handle $cache_handle_res))',
+        r'\(typename \$(\w+_handle) \(handle\)\)',
+        r'(typename $\1 (handle $cache_handle_res))',
         combined
     )
 
@@ -285,6 +285,10 @@ def transform_http_cache_module(types_content, module_content):
     """
     result = "(module $fastly_http_cache\n"
     result += "    (use * from $typenames)\n"
+    result += "    (use $cache_duration_ns from $fastly_cache)\n"
+    result += "    (use $cache_object_length from $fastly_cache)\n"
+    result += "    (use $cache_hit_count from $fastly_cache)\n"
+    result += "    (use $cache_lookup_state from $fastly_cache)\n"
     result += "    (resource $http_cache_handle_res)\n\n"
 
     # Combine types and module content

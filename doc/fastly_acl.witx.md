@@ -1,5 +1,5 @@
 
-# Module: fastly_kv
+# Module: fastly_acl
 
 ## Table of contents
 
@@ -9,7 +9,7 @@
 
 ### Functions list:
 
-[**[All](#functions)**] - [[`open()`](#open)] - [[`lookup()`](#lookup)] - [[`insert()`](#insert)]
+[**[All](#functions)**] - [[`open()`](#open)] - [[`lookup()`](#lookup)]
 
 ## Types
 
@@ -981,7 +981,7 @@ Returned error type: _[`fastly_status`](#fastly_status)_
 
 #### Output:
 
-* _[`kv_store_handle`](#kv_store_handle)_ mutable pointer
+* _[`acl_handle`](#acl_handle)_ mutable pointer
 
 ---
 
@@ -990,27 +990,13 @@ Returned error type: _[`fastly_status`](#fastly_status)_
 
 #### Input:
 
-* **`store`**: _[`kv_store_handle`](#kv_store_handle)_
-* **`key`**: `u8` mutable slice
-* **`opt_body_handle_out`**: _[`body_handle`](#body_handle)_ mutable pointer
+* **`acl`**: _[`acl_handle`](#acl_handle)_
+* **`ip_octets`**: `char8` pointer
+* **`ip_len`**: `usize`
+* **`body_handle_out`**: _[`body_handle`](#body_handle)_ mutable pointer
+* **`acl_error_out`**: _[`acl_error`](#acl_error)_ mutable pointer
 
 This function has no output.
-
----
-
-### [`insert()`](#insert)
-Returned error type: _[`fastly_status`](#fastly_status)_
-
-#### Input:
-
-* **`store`**: _[`kv_store_handle`](#kv_store_handle)_
-* **`key`**: `u8` mutable slice
-* **`body_handle`**: _[`body_handle`](#body_handle)_
-* **`max_age`**: `u32`
-
-#### Output:
-
-* _[`inserted`](#inserted)_ mutable pointer
 
 ---
 

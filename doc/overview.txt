@@ -123,6 +123,34 @@ enum backend_health: (tag: u32)
     - healthy: 1
     - unhealthy: 2
 
+alias bot_analyzed = u32
+
+alias bot_detected = u32
+
+alias bot_category_kind = u32
+
+alias bot_verified = u32
+
+alias resvpnproxy_is_anonymous = u32
+
+alias resvpnproxy_is_anonymous_vpn = u32
+
+alias resvpnproxy_is_hosting_provider = u32
+
+alias resvpnproxy_is_proxy_over_vpn = u32
+
+alias resvpnproxy_is_public_proxy = u32
+
+alias resvpnproxy_is_relay_proxy = u32
+
+alias resvpnproxy_is_residential_proxy = u32
+
+alias resvpnproxy_is_smart_dns_proxy = u32
+
+alias resvpnproxy_is_tor_exit_node = u32
+
+alias resvpnproxy_is_vpn_datacenter = u32
+
 constants content_encodings: (type: u32)
 predefined constants for content_encodings:
     - gzip = 1
@@ -301,6 +329,7 @@ enum send_error_detail_tag: (tag: u32)
     - internal_error: 22
     - tls_alert_received: 23
     - tls_protocol_error: 24
+    - h2_error: 25
 
 constants send_error_detail_mask: (type: u32)
 predefined constants for send_error_detail_mask:
@@ -308,6 +337,7 @@ predefined constants for send_error_detail_mask:
     - dns_error_rcode = 0x2
     - dns_error_info_code = 0x4
     - tls_alert_id = 0x8
+    - h2_error = 0x10
 
 struct send_error_detail:
     - tag: send_error_detail_tag
@@ -315,6 +345,8 @@ struct send_error_detail:
     - dns_error_rcode: u16
     - dns_error_info_code: u16
     - tls_alert_id: u8
+    - h2_error_frame: u8
+    - h2_error_code: u32
 
 alias blocked = u32
 
@@ -378,6 +410,11 @@ predefined constants for next_request_options_mask:
 
 struct next_request_options:
     - timeout_ms: u64
+
+enum pending_response_kind: (tag: u32)
+    - any: 0
+    - response: 1
+    - error: 2
 
 function init(): fastly_status
     - Input:
@@ -616,6 +653,7 @@ predefined constants for cache_lookup_state:
     - usable = 0x2
     - stale = 0x4
     - must_insert_or_update = 0x8
+    - usable_if_error = 0x10
 
 function lookup(): fastly_status
     - Input:
@@ -1104,6 +1142,7 @@ struct http_cache_write_options:
     - surrogate_keys_ptr: mut_ptr<char8>
     - surrogate_keys_len: usize
     - length: cache_object_length
+    - stale_if_error_ns: cache_duration_ns
 
 constants http_cache_write_options_mask: (type: u32)
 predefined constants for http_cache_write_options_mask:
@@ -1114,6 +1153,7 @@ predefined constants for http_cache_write_options_mask:
     - surrogate_keys = 0x10
     - length = 0x20
     - sensitive_data = 0x40
+    - stale_if_error_ns = 0x80
 
 function is_request_cacheable(): fastly_status
     - Input:
@@ -1180,6 +1220,11 @@ function transaction_update_and_return_fresh(): fastly_status
         - options: mut_ptr<http_cache_write_options>
     - Output:
         - mut_ptr<http_cache_handle>
+
+function transaction_choose_stale(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+    - No output
 
 function transaction_record_not_cacheable(): fastly_status
     - Input:
@@ -1249,6 +1294,12 @@ function get_max_age_ns(): fastly_status
         - mut_ptr<cache_duration_ns>
 
 function get_stale_while_revalidate_ns(): fastly_status
+    - Input:
+        - handle: http_cache_handle
+    - Output:
+        - mut_ptr<cache_duration_ns>
+
+function get_stale_if_error_ns(): fastly_status
     - Input:
         - handle: http_cache_handle
     - Output:
@@ -1444,6 +1495,114 @@ function fastly_key_is_valid(): fastly_status
         - req: request_handle
     - Output:
         - mut_ptr<is_valid>
+
+function downstream_bot_analyzed(): fastly_status
+    - Input:
+        - req: request_handle
+    - Output:
+        - mut_ptr<bot_analyzed>
+
+function downstream_bot_detected(): fastly_status
+    - Input:
+        - req: request_handle
+    - Output:
+        - mut_ptr<bot_detected>
+
+function downstream_bot_name(): fastly_status
+    - Input:
+        - req: request_handle
+        - bot_name_out: mut_ptr<char8>
+        - bot_name_max_len: usize
+        - nwritten_out: mut_ptr<usize>
+    - No output
+
+function downstream_bot_category(): fastly_status
+    - Input:
+        - req: request_handle
+        - bot_category_out: mut_ptr<char8>
+        - bot_category_max_len: usize
+        - nwritten_out: mut_ptr<usize>
+    - No output
+
+function downstream_bot_category_kind(): fastly_status
+    - Input:
+        - req: request_handle
+    - Output:
+        - mut_ptr<bot_category_kind>
+
+function downstream_bot_verified(): fastly_status
+    - Input:
+        - req: request_handle
+    - Output:
+        - mut_ptr<bot_verified>
+
+function downstream_resvpnproxy_is_anonymous(): fastly_status
+    - Input:
+        - req: request_handle
+    - Output:
+        - mut_ptr<resvpnproxy_is_anonymous>
+
+function downstream_resvpnproxy_is_anonymous_vpn(): fastly_status
+    - Input:
+        - req: request_handle
+    - Output:
+        - mut_ptr<resvpnproxy_is_anonymous_vpn>
+
+function downstream_resvpnproxy_is_hosting_provider(): fastly_status
+    - Input:
+        - req: request_handle
+    - Output:
+        - mut_ptr<resvpnproxy_is_hosting_provider>
+
+function downstream_resvpnproxy_is_proxy_over_vpn(): fastly_status
+    - Input:
+        - req: request_handle
+    - Output:
+        - mut_ptr<resvpnproxy_is_proxy_over_vpn>
+
+function downstream_resvpnproxy_is_public_proxy(): fastly_status
+    - Input:
+        - req: request_handle
+    - Output:
+        - mut_ptr<resvpnproxy_is_public_proxy>
+
+function downstream_resvpnproxy_is_relay_proxy(): fastly_status
+    - Input:
+        - req: request_handle
+    - Output:
+        - mut_ptr<resvpnproxy_is_relay_proxy>
+
+function downstream_resvpnproxy_is_residential_proxy(): fastly_status
+    - Input:
+        - req: request_handle
+    - Output:
+        - mut_ptr<resvpnproxy_is_residential_proxy>
+
+function downstream_resvpnproxy_is_smart_dns_proxy(): fastly_status
+    - Input:
+        - req: request_handle
+    - Output:
+        - mut_ptr<resvpnproxy_is_smart_dns_proxy>
+
+function downstream_resvpnproxy_is_tor_exit_node(): fastly_status
+    - Input:
+        - req: request_handle
+    - Output:
+        - mut_ptr<resvpnproxy_is_tor_exit_node>
+
+function downstream_resvpnproxy_is_vpn_datacenter(): fastly_status
+    - Input:
+        - req: request_handle
+    - Output:
+        - mut_ptr<resvpnproxy_is_vpn_datacenter>
+
+function downstream_resvpnproxy_vpn_service_name(): fastly_status
+    - Input:
+        - req: request_handle
+        - vpn_service_name_out: mut_ptr<char8>
+        - vpn_service_name_max_len: usize
+        - nwritten_out: mut_ptr<usize>
+    - No output
 
 
 ---------------------- Module: [fastly_http_req] ----------------------
@@ -1727,6 +1886,29 @@ function send_async_streaming(): fastly_status
     - Output:
         - mut_ptr<pending_request_handle>
 
+function pending_req_header_insert(): fastly_status
+    - Input:
+        - h: pending_request_handle
+        - name: mut_slice<u8>
+        - value: mut_slice<u8>
+        - target: pending_response_kind
+    - No output
+
+function pending_req_header_append(): fastly_status
+    - Input:
+        - h: pending_request_handle
+        - name: mut_slice<u8>
+        - value: mut_slice<u8>
+        - target: pending_response_kind
+    - No output
+
+function pending_req_header_remove(): fastly_status
+    - Input:
+        - h: pending_request_handle
+        - name: mut_slice<u8>
+        - target: pending_response_kind
+    - No output
+
 function pending_req_poll(): fastly_status
     - Input:
         - h: pending_request_handle
@@ -1930,6 +2112,11 @@ function send_downstream(): fastly_status
         - h: response_handle
         - b: body_handle
         - streaming: u32
+    - No output
+
+function send_downstream_pending(): fastly_status
+    - Input:
+        - handle: pending_request_handle
     - No output
 
 function status_get(): fastly_status
@@ -2226,11 +2413,13 @@ predefined constants for shield_backend_options:
     - reserved = 0x1
     - use_cache_key = 0x2
     - first_byte_timeout = 0x4
+    - between_bytes_timeout = 0x8
 
 struct shield_backend_config:
     - cache_key: mut_ptr<char8>
     - cache_key_len: u32
     - first_byte_timeout_ms: u32
+    - between_bytes_timeout_ms: u32
 
 function shield_info(): fastly_status
     - Input:
@@ -2392,6 +2581,34 @@ enum backend_health: (tag: u32)
     - unknown: 0
     - healthy: 1
     - unhealthy: 2
+
+alias bot_analyzed = u32
+
+alias bot_detected = u32
+
+alias bot_category_kind = u32
+
+alias bot_verified = u32
+
+alias resvpnproxy_is_anonymous = u32
+
+alias resvpnproxy_is_anonymous_vpn = u32
+
+alias resvpnproxy_is_hosting_provider = u32
+
+alias resvpnproxy_is_proxy_over_vpn = u32
+
+alias resvpnproxy_is_public_proxy = u32
+
+alias resvpnproxy_is_relay_proxy = u32
+
+alias resvpnproxy_is_residential_proxy = u32
+
+alias resvpnproxy_is_smart_dns_proxy = u32
+
+alias resvpnproxy_is_tor_exit_node = u32
+
+alias resvpnproxy_is_vpn_datacenter = u32
 
 constants content_encodings: (type: u32)
 predefined constants for content_encodings:
@@ -2571,6 +2788,7 @@ enum send_error_detail_tag: (tag: u32)
     - internal_error: 22
     - tls_alert_received: 23
     - tls_protocol_error: 24
+    - h2_error: 25
 
 constants send_error_detail_mask: (type: u32)
 predefined constants for send_error_detail_mask:
@@ -2578,6 +2796,7 @@ predefined constants for send_error_detail_mask:
     - dns_error_rcode = 0x2
     - dns_error_info_code = 0x4
     - tls_alert_id = 0x8
+    - h2_error = 0x10
 
 struct send_error_detail:
     - tag: send_error_detail_tag
@@ -2585,6 +2804,8 @@ struct send_error_detail:
     - dns_error_rcode: u16
     - dns_error_info_code: u16
     - tls_alert_id: u8
+    - h2_error_frame: u8
+    - h2_error_code: u32
 
 alias blocked = u32
 
@@ -2648,4 +2869,9 @@ predefined constants for next_request_options_mask:
 
 struct next_request_options:
     - timeout_ms: u64
+
+enum pending_response_kind: (tag: u32)
+    - any: 0
+    - response: 1
+    - error: 2
 
